@@ -19,19 +19,28 @@ public class GestionEntradasEventos extends javax.swing.JPanel {
     /**
      * Creates new form GestionEntradasEventos
      */
-    Asistente newA = new Asistente();
-    Menu menu = new Menu();
-    
-    
+    private Asistente currentAsistente = new Asistente();
+    private Evento currentEvento = new Evento();
+    private Menu menu;
+    private VP currentVP;
     
     public GestionEntradasEventos() {
         initComponents();
-        menu.runWea();//PARA TESTEO
         venderEntradasPnl.setVisible(false);
         cancelEntradaPnl.setVisible(false);
         datosAsistentePnl.setVisible(false);
     }
-
+    
+    public void setCurrentVP(VP vp){
+        currentVP = vp;
+    }
+    
+    public void setMenu(Menu menu) {
+        this.menu = menu;
+        System.out.println(menu.getMenu());
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -44,27 +53,32 @@ public class GestionEntradasEventos extends javax.swing.JPanel {
         backgroundPnl = new javax.swing.JPanel();
         headerLbl = new javax.swing.JLabel();
         datosAsistentePnl = new javax.swing.JPanel();
-        headerVELbl2 = new javax.swing.JLabel();
-        idAsistenteLbl = new javax.swing.JLabel();
-        idAsistenteField = new javax.swing.JTextField();
-        nombreAsistLbl = new javax.swing.JLabel();
-        nombreAsistField = new javax.swing.JTextField();
-        edadAsistLbl = new javax.swing.JLabel();
-        edadAsistField = new javax.swing.JTextField();
-        emailLbl = new javax.swing.JLabel();
-        emailField = new javax.swing.JTextField();
-        realizarVentaBtn = new javax.swing.JButton();
+        headerLblDA = new javax.swing.JLabel();
+        idAsistenteLblDA = new javax.swing.JLabel();
+        idAsistenteFieldDA = new javax.swing.JTextField();
+        nombreAsistLblDA = new javax.swing.JLabel();
+        nombreAsistFieldDA = new javax.swing.JTextField();
+        edadAsistLblDA = new javax.swing.JLabel();
+        edadAsistFieldDA = new javax.swing.JTextField();
+        emailLblDA = new javax.swing.JLabel();
+        emailFieldDA = new javax.swing.JTextField();
+        realizarVentaBtnDA = new javax.swing.JButton();
         venderEntradasPnl = new javax.swing.JPanel();
-        headerVELbl = new javax.swing.JLabel();
-        idEventoLbl = new javax.swing.JLabel();
-        idEventoField = new javax.swing.JTextField();
+        headeLblVE = new javax.swing.JLabel();
+        idEventoLblVE = new javax.swing.JLabel();
+        idEventoFieldVE = new javax.swing.JTextField();
         backBtnVEPnl = new javax.swing.JButton();
-        validarIDEventoBtn = new javax.swing.JButton();
+        validarIdEventoBtnVE = new javax.swing.JButton();
         cancelEntradaPnl = new javax.swing.JPanel();
-        headerCELbl = new javax.swing.JLabel();
-        idAsistLbl = new javax.swing.JLabel();
-        idAsistField = new javax.swing.JTextField();
-        backBtnCEPnl1 = new javax.swing.JButton();
+        headerValidarIdEventoLblCE = new javax.swing.JLabel();
+        headerLblCE = new javax.swing.JLabel();
+        idAsistLblCE = new javax.swing.JLabel();
+        idAsistFieldCE = new javax.swing.JTextField();
+        idEventoLblCE = new javax.swing.JLabel();
+        idEventoFieldCE = new javax.swing.JTextField();
+        backBtnCEPnl = new javax.swing.JButton();
+        reembolsarBtnCE = new javax.swing.JButton();
+        validarIdEventoBtnCE = new javax.swing.JButton();
         venderEntradasBtn = new javax.swing.JButton();
         CancelarEntradaBtn = new javax.swing.JButton();
 
@@ -85,68 +99,68 @@ public class GestionEntradasEventos extends javax.swing.JPanel {
         datosAsistentePnl.setPreferredSize(new java.awt.Dimension(710, 440));
         datosAsistentePnl.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        headerVELbl2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        headerVELbl2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        headerVELbl2.setText("Por favor, ingrese los datos del Asistente");
-        headerVELbl2.setPreferredSize(new java.awt.Dimension(480, 65));
-        datosAsistentePnl.add(headerVELbl2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 0, -1, -1));
+        headerLblDA.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        headerLblDA.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        headerLblDA.setText("Por favor, ingrese los datos del Asistente");
+        headerLblDA.setPreferredSize(new java.awt.Dimension(480, 65));
+        datosAsistentePnl.add(headerLblDA, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 0, -1, -1));
 
-        idAsistenteLbl.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        idAsistenteLbl.setText("ID del Asistente");
-        datosAsistentePnl.add(idAsistenteLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, -1, -1));
+        idAsistenteLblDA.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        idAsistenteLblDA.setText("ID del Asistente (Formato \"A0\")");
+        datosAsistentePnl.add(idAsistenteLblDA, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, -1, -1));
 
-        idAsistenteField.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        idAsistenteField.setPreferredSize(new java.awt.Dimension(91, 22));
-        datosAsistentePnl.add(idAsistenteField, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, -1, -1));
+        idAsistenteFieldDA.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        idAsistenteFieldDA.setPreferredSize(new java.awt.Dimension(91, 22));
+        datosAsistentePnl.add(idAsistenteFieldDA, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, -1, -1));
 
-        nombreAsistLbl.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        nombreAsistLbl.setText("Nombre del Asistente (Nombre, Apellido Paterno)");
-        datosAsistentePnl.add(nombreAsistLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, -1, -1));
+        nombreAsistLblDA.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        nombreAsistLblDA.setText("Nombre del Asistente (Nombre, Apellido Paterno)");
+        datosAsistentePnl.add(nombreAsistLblDA, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, -1, -1));
 
-        nombreAsistField.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        nombreAsistField.setPreferredSize(new java.awt.Dimension(91, 22));
-        nombreAsistField.addActionListener(new java.awt.event.ActionListener() {
+        nombreAsistFieldDA.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        nombreAsistFieldDA.setPreferredSize(new java.awt.Dimension(91, 22));
+        nombreAsistFieldDA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nombreAsistFieldActionPerformed(evt);
+                nombreAsistFieldDAActionPerformed(evt);
             }
         });
-        datosAsistentePnl.add(nombreAsistField, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, -1, -1));
+        datosAsistentePnl.add(nombreAsistFieldDA, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, -1, -1));
 
-        edadAsistLbl.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        edadAsistLbl.setText("Edad");
-        datosAsistentePnl.add(edadAsistLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, -1, -1));
+        edadAsistLblDA.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        edadAsistLblDA.setText("Edad");
+        datosAsistentePnl.add(edadAsistLblDA, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, -1, -1));
 
-        edadAsistField.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        edadAsistField.setPreferredSize(new java.awt.Dimension(91, 22));
-        edadAsistField.addActionListener(new java.awt.event.ActionListener() {
+        edadAsistFieldDA.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        edadAsistFieldDA.setPreferredSize(new java.awt.Dimension(91, 22));
+        edadAsistFieldDA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                edadAsistFieldActionPerformed(evt);
+                edadAsistFieldDAActionPerformed(evt);
             }
         });
-        datosAsistentePnl.add(edadAsistField, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 340, -1, -1));
+        datosAsistentePnl.add(edadAsistFieldDA, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 340, -1, -1));
 
-        emailLbl.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        emailLbl.setText("Emaill");
-        datosAsistentePnl.add(emailLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, -1, -1));
+        emailLblDA.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        emailLblDA.setText("Emaill");
+        datosAsistentePnl.add(emailLblDA, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, -1, -1));
 
-        emailField.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        emailField.setPreferredSize(new java.awt.Dimension(91, 22));
-        emailField.addActionListener(new java.awt.event.ActionListener() {
+        emailFieldDA.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        emailFieldDA.setPreferredSize(new java.awt.Dimension(91, 22));
+        emailFieldDA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                emailFieldActionPerformed(evt);
+                emailFieldDAActionPerformed(evt);
             }
         });
-        datosAsistentePnl.add(emailField, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, -1, -1));
+        datosAsistentePnl.add(emailFieldDA, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, -1, -1));
 
-        realizarVentaBtn.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        realizarVentaBtn.setText("Realizar Venta");
-        realizarVentaBtn.setPreferredSize(new java.awt.Dimension(128, 30));
-        realizarVentaBtn.addActionListener(new java.awt.event.ActionListener() {
+        realizarVentaBtnDA.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        realizarVentaBtnDA.setText("Realizar Venta");
+        realizarVentaBtnDA.setPreferredSize(new java.awt.Dimension(128, 30));
+        realizarVentaBtnDA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                realizarVentaBtnActionPerformed(evt);
+                realizarVentaBtnDAActionPerformed(evt);
             }
         });
-        datosAsistentePnl.add(realizarVentaBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 400, -1, -1));
+        datosAsistentePnl.add(realizarVentaBtnDA, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 400, -1, -1));
 
         backgroundPnl.add(datosAsistentePnl, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, -1, -1));
 
@@ -154,19 +168,19 @@ public class GestionEntradasEventos extends javax.swing.JPanel {
         venderEntradasPnl.setPreferredSize(new java.awt.Dimension(710, 440));
         venderEntradasPnl.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        headerVELbl.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        headerVELbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        headerVELbl.setText("Por favor, ingrese del ID del Evento para la venta");
-        headerVELbl.setPreferredSize(new java.awt.Dimension(480, 65));
-        venderEntradasPnl.add(headerVELbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 0, -1, -1));
+        headeLblVE.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        headeLblVE.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        headeLblVE.setText("Por favor, ingrese del ID del Evento para la venta");
+        headeLblVE.setPreferredSize(new java.awt.Dimension(480, 65));
+        venderEntradasPnl.add(headeLblVE, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 0, -1, -1));
 
-        idEventoLbl.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        idEventoLbl.setText("ID del Evento");
-        venderEntradasPnl.add(idEventoLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, -1, -1));
+        idEventoLblVE.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        idEventoLblVE.setText("ID del Evento");
+        venderEntradasPnl.add(idEventoLblVE, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, -1, -1));
 
-        idEventoField.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        idEventoField.setPreferredSize(new java.awt.Dimension(91, 22));
-        venderEntradasPnl.add(idEventoField, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, -1, -1));
+        idEventoFieldVE.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        idEventoFieldVE.setPreferredSize(new java.awt.Dimension(91, 22));
+        venderEntradasPnl.add(idEventoFieldVE, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, -1, -1));
 
         backBtnVEPnl.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         backBtnVEPnl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recurso/orangeGoBackArrow.png"))); // NOI18N
@@ -179,15 +193,15 @@ public class GestionEntradasEventos extends javax.swing.JPanel {
         });
         venderEntradasPnl.add(backBtnVEPnl, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 400, -1, -1));
 
-        validarIDEventoBtn.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
-        validarIDEventoBtn.setText("Validar ID");
-        validarIDEventoBtn.setPreferredSize(new java.awt.Dimension(75, 43));
-        validarIDEventoBtn.addActionListener(new java.awt.event.ActionListener() {
+        validarIdEventoBtnVE.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        validarIdEventoBtnVE.setText("Validar ID");
+        validarIdEventoBtnVE.setPreferredSize(new java.awt.Dimension(75, 43));
+        validarIdEventoBtnVE.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                validarIDEventoBtnActionPerformed(evt);
+                validarIdEventoBtnVEActionPerformed(evt);
             }
         });
-        venderEntradasPnl.add(validarIDEventoBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, -1, -1));
+        venderEntradasPnl.add(validarIdEventoBtnVE, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, -1, -1));
 
         backgroundPnl.add(venderEntradasPnl, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, -1, -1));
 
@@ -195,34 +209,67 @@ public class GestionEntradasEventos extends javax.swing.JPanel {
         cancelEntradaPnl.setPreferredSize(new java.awt.Dimension(710, 440));
         cancelEntradaPnl.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        headerCELbl.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        headerCELbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        headerCELbl.setText("Por favor, ingrese el ID del Asistente para Reembolsar");
-        headerCELbl.setPreferredSize(new java.awt.Dimension(480, 65));
-        cancelEntradaPnl.add(headerCELbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 0, -1, -1));
+        headerValidarIdEventoLblCE.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        headerValidarIdEventoLblCE.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        headerValidarIdEventoLblCE.setText("Por favor, ingrese el ID del Evento donde se encuentra el asistente");
+        headerValidarIdEventoLblCE.setPreferredSize(new java.awt.Dimension(600, 65));
+        cancelEntradaPnl.add(headerValidarIdEventoLblCE, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, -1, -1));
 
-        idAsistLbl.setText("ID del Asistente");
-        cancelEntradaPnl.add(idAsistLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, -1, -1));
+        headerLblCE.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        headerLblCE.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        headerLblCE.setText("Por favor, ingrese el ID del Asistente para Reembolsar");
+        headerLblCE.setPreferredSize(new java.awt.Dimension(480, 65));
+        cancelEntradaPnl.add(headerLblCE, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 0, -1, -1));
 
-        idAsistField.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        idAsistField.setPreferredSize(new java.awt.Dimension(91, 22));
-        idAsistField.addActionListener(new java.awt.event.ActionListener() {
+        idAsistLblCE.setText("ID del Asistente");
+        cancelEntradaPnl.add(idAsistLblCE, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, -1, -1));
+
+        idAsistFieldCE.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        idAsistFieldCE.setPreferredSize(new java.awt.Dimension(91, 22));
+        idAsistFieldCE.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                idAsistFieldActionPerformed(evt);
+                idAsistFieldCEActionPerformed(evt);
             }
         });
-        cancelEntradaPnl.add(idAsistField, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, -1, -1));
+        cancelEntradaPnl.add(idAsistFieldCE, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, -1, -1));
 
-        backBtnCEPnl1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        backBtnCEPnl1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recurso/orangeGoBackArrow.png"))); // NOI18N
-        backBtnCEPnl1.setText("Atras");
-        backBtnCEPnl1.setPreferredSize(new java.awt.Dimension(128, 30));
-        backBtnCEPnl1.addActionListener(new java.awt.event.ActionListener() {
+        idEventoLblCE.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        idEventoLblCE.setText("ID del Evento");
+        cancelEntradaPnl.add(idEventoLblCE, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, -1, -1));
+
+        idEventoFieldCE.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        idEventoFieldCE.setPreferredSize(new java.awt.Dimension(91, 22));
+        cancelEntradaPnl.add(idEventoFieldCE, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, -1, -1));
+
+        backBtnCEPnl.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        backBtnCEPnl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recurso/orangeGoBackArrow.png"))); // NOI18N
+        backBtnCEPnl.setText("Atras");
+        backBtnCEPnl.setPreferredSize(new java.awt.Dimension(128, 30));
+        backBtnCEPnl.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                backBtnCEPnl1ActionPerformed(evt);
+                backBtnCEPnlActionPerformed(evt);
             }
         });
-        cancelEntradaPnl.add(backBtnCEPnl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 400, -1, -1));
+        cancelEntradaPnl.add(backBtnCEPnl, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 400, -1, -1));
+
+        reembolsarBtnCE.setText("Reembolsar");
+        reembolsarBtnCE.setPreferredSize(new java.awt.Dimension(128, 30));
+        reembolsarBtnCE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reembolsarBtnCEActionPerformed(evt);
+            }
+        });
+        cancelEntradaPnl.add(reembolsarBtnCE, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 400, -1, -1));
+
+        validarIdEventoBtnCE.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        validarIdEventoBtnCE.setText("Validar ID");
+        validarIdEventoBtnCE.setPreferredSize(new java.awt.Dimension(75, 43));
+        validarIdEventoBtnCE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                validarIdEventoBtnCEActionPerformed(evt);
+            }
+        });
+        cancelEntradaPnl.add(validarIdEventoBtnCE, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, -1, -1));
 
         backgroundPnl.add(cancelEntradaPnl, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, -1, -1));
 
@@ -254,6 +301,17 @@ public class GestionEntradasEventos extends javax.swing.JPanel {
         cancelEntradaPnl.setVisible(true);
         venderEntradasBtn.setVisible(false);
         CancelarEntradaBtn.setVisible(false);
+        headerLblCE.setVisible(false);
+        idAsistLblCE.setVisible(false);
+        idAsistFieldCE.setVisible(false);
+        idEventoLblCE.setVisible(true);
+        idEventoFieldCE.setVisible(true);
+        reembolsarBtnCE.setVisible(false);
+        currentVP.ventaEntradasBtn.setVisible(false);
+        currentVP.eventosBtn.setVisible(false);
+        currentVP.recintosBtn.setVisible(false);
+        currentVP.exitBtn.setVisible(false);
+        currentVP.homeBtn.setVisible(false);
     }//GEN-LAST:event_CancelarEntradaBtnActionPerformed
 
     private void venderEntradasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_venderEntradasBtnActionPerformed
@@ -261,102 +319,245 @@ public class GestionEntradasEventos extends javax.swing.JPanel {
         venderEntradasBtn.setVisible(false);
         CancelarEntradaBtn.setVisible(false);
         datosAsistentePnl.setVisible(false);
+        currentVP.ventaEntradasBtn.setVisible(false);
+        currentVP.eventosBtn.setVisible(false);
+        currentVP.recintosBtn.setVisible(false);
+        currentVP.exitBtn.setVisible(false);
+        currentVP.homeBtn.setVisible(false);
     }//GEN-LAST:event_venderEntradasBtnActionPerformed
     
     
     //==========================================================================
     
-    private void backBtnCEPnl1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnCEPnl1ActionPerformed
+    private void backBtnCEPnlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnCEPnlActionPerformed
         cancelEntradaPnl.setVisible(false);
         venderEntradasBtn.setVisible(true);
         CancelarEntradaBtn.setVisible(true);
-    }//GEN-LAST:event_backBtnCEPnl1ActionPerformed
+        currentVP.ventaEntradasBtn.setVisible(true);
+        currentVP.eventosBtn.setVisible(true);
+        currentVP.recintosBtn.setVisible(true);
+        currentVP.exitBtn.setVisible(true);
+        currentVP.homeBtn.setVisible(true);
+    }//GEN-LAST:event_backBtnCEPnlActionPerformed
 
-    private void idAsistFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idAsistFieldActionPerformed
+    private void idAsistFieldCEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idAsistFieldCEActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_idAsistFieldActionPerformed
+    }//GEN-LAST:event_idAsistFieldCEActionPerformed
 
     private void backBtnVEPnlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnVEPnlActionPerformed
         // TODO add your handling code here:
         venderEntradasPnl.setVisible(false);
         venderEntradasBtn.setVisible(true);
         CancelarEntradaBtn.setVisible(true);
+        currentVP.ventaEntradasBtn.setVisible(true);
+        currentVP.eventosBtn.setVisible(true);
+        currentVP.recintosBtn.setVisible(true);
+        currentVP.exitBtn.setVisible(true);
+        currentVP.homeBtn.setVisible(true);
     }//GEN-LAST:event_backBtnVEPnlActionPerformed
 
-    private void nombreAsistFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreAsistFieldActionPerformed
+    private void nombreAsistFieldDAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreAsistFieldDAActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_nombreAsistFieldActionPerformed
+    }//GEN-LAST:event_nombreAsistFieldDAActionPerformed
 
-    private void edadAsistFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edadAsistFieldActionPerformed
+    private void edadAsistFieldDAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edadAsistFieldDAActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_edadAsistFieldActionPerformed
+    }//GEN-LAST:event_edadAsistFieldDAActionPerformed
 
-    private void emailFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailFieldActionPerformed
+    private void emailFieldDAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailFieldDAActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_emailFieldActionPerformed
+    }//GEN-LAST:event_emailFieldDAActionPerformed
 
-    private void validarIDEventoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validarIDEventoBtnActionPerformed
+    private void validarIdEventoBtnVEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validarIdEventoBtnVEActionPerformed
         //**CODIGO PARA VALIDAR ID EVENTO EXISTE Y ESTA ESCRITO CORRECTAMENTE**
-        System.out.println(menu.checkEvento(idEventoField.getText()));
-        if(!"".equals(idEventoField.getText()) && menu.checkEvento(idEventoField.getText())){
-            idEventoLbl.setVisible(false);
-            idEventoField.setVisible(false);
-            validarIDEventoBtn.setVisible(false);
-            datosAsistentePnl.setVisible(true);
-            
+        System.out.println(menu.checkEvento(idEventoFieldVE.getText()));//consola
+        
+        if(!"".equals(idEventoFieldVE.getText()) && menu.checkEvento(idEventoFieldVE.getText())){
+            currentEvento = menu.obtenerEvento(idEventoFieldVE.getText());
+            if (currentEvento.getSizeArrayAsistentes() < menu.obtenerRecinto(currentEvento.getidRecinto()).getCupos()){
+                clearFieldsVenderEntradas();
+                datosAsistentePnl.setVisible(true);
+                venderEntradasPnl.setVisible(false);
+                currentEvento.mostrarAsistentes();//consola
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "ENTRADAS AGOTADAS");
+                clearFieldsVenderEntradas();
+                venderEntradasPnl.setVisible(false);
+                venderEntradasBtn.setVisible(true);
+                CancelarEntradaBtn.setVisible(true);
+                currentVP.ventaEntradasBtn.setVisible(true);
+                currentVP.eventosBtn.setVisible(true);
+                currentVP.recintosBtn.setVisible(true);
+                currentVP.exitBtn.setVisible(true);
+                currentVP.homeBtn.setVisible(true);
+            }
         }
         else{
+            clearFieldsVenderEntradas();
             JOptionPane.showMessageDialog(null, "No Existe un Evento asociado a este ID");
         }
-    }//GEN-LAST:event_validarIDEventoBtnActionPerformed
 
-    private void realizarVentaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_realizarVentaBtnActionPerformed
-        if (!"".equals(idAsistenteField.getText()) || 
-            !"".equals(nombreAsistField.getText()) || 
-            !"".equals(edadAsistField.getText()) || 
-            !"".equals(emailField.getText())) {
-            
-            try{
-                newA.setidAsistente(idAsistenteField.getText());
+    }//GEN-LAST:event_validarIdEventoBtnVEActionPerformed
+
+    private void realizarVentaBtnDAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_realizarVentaBtnDAActionPerformed
+        Asistente newAsistente = new Asistente();
+        if (!"".equals(idAsistenteFieldDA.getText()) && 
+            !"".equals(nombreAsistFieldDA.getText()) && 
+            !"".equals(edadAsistFieldDA.getText()) && 
+            !"".equals(emailFieldDA.getText())) {
+            if (currentEvento.obtenerAsistente(idAsistenteFieldDA.getText()) == null){
+                try{
+                    newAsistente.setidAsistente(idAsistenteFieldDA.getText());
+                }
+                catch(BadIdAsistenteException e){
+                    JOptionPane.showMessageDialog(null, e.getMessage(), "ID Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                System.out.println(currentEvento.obtenerAsistente(currentAsistente.getidAsistente()));//consola
+                
+                newAsistente.setNombre(nombreAsistFieldDA.getText());
+                newAsistente.setEdad(Integer.parseInt(edadAsistFieldDA.getText()));
+                newAsistente.setEmail(emailFieldDA.getText());
+                currentEvento.ventaEntrada(newAsistente);//se agrega a la lista de Asistentes del evento
+                currentEvento.mostrarAsistentes();//consola
+                datosAsistentePnl.setVisible(false);
+                venderEntradasPnl.setVisible(false);
+                venderEntradasBtn.setVisible(true);
+                CancelarEntradaBtn.setVisible(true);
+                currentVP.ventaEntradasBtn.setVisible(true);
+                currentVP.eventosBtn.setVisible(true);
+                currentVP.recintosBtn.setVisible(true);
+                currentVP.exitBtn.setVisible(true);
+                currentVP.homeBtn.setVisible(true);
+                clearFieldsVenderEntradas();
+                clearFieldsDatosAsistente();
+                JOptionPane.showMessageDialog(null, "Venta de entrada exitosa. Se ha agregado el Asistente al evento correctamente.", "System Says",JOptionPane.INFORMATION_MESSAGE);
             }
-            catch(BadIdAsistenteException e){
-                JOptionPane.showMessageDialog(null, e.getMessage(), "ID Error", JOptionPane.ERROR_MESSAGE);
+            else{
+                currentEvento.mostrarAsistentes();//consola
+                JOptionPane.showMessageDialog(null, "El asistente ingresado ya se encuentra en la lista de asistentes a este Evento", "Duplicate ID", JOptionPane.ERROR_MESSAGE);
+                return;
             }
-            newA.setNombre(nombreAsistField.getText());
-            newA.setEdad(Integer.parseInt(edadAsistField.getText()));
-            newA.setEmail(emailField.getText());  
         }
         else{
            JOptionPane.showMessageDialog(null, "Los campos se encuentran vacios", "Field Error", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_realizarVentaBtnActionPerformed
+    }//GEN-LAST:event_realizarVentaBtnDAActionPerformed
+
+    private void reembolsarBtnCEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reembolsarBtnCEActionPerformed
+        if (!"".equals(idAsistFieldCE.getText())){
+            if (currentEvento.obtenerAsistente(idAsistFieldCE.getText()) != null){    
+                try{
+                    currentAsistente.setidAsistente(idAsistFieldCE.getText());//se usa solo para validar el formato del idAsistente
+                }
+                catch(BadIdAsistenteException e){
+                    JOptionPane.showMessageDialog(null, e.getMessage(), "ID Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            
+                if (currentEvento.eliminarAsistente(idAsistFieldCE.getText())){
+                    cancelEntradaPnl.setVisible(false);
+                    venderEntradasBtn.setVisible(true);
+                    CancelarEntradaBtn.setVisible(true);
+                    currentVP.ventaEntradasBtn.setVisible(true);
+                    currentVP.eventosBtn.setVisible(true);
+                    currentVP.recintosBtn.setVisible(true);
+                    currentVP.exitBtn.setVisible(true);
+                    currentVP.homeBtn.setVisible(true);
+                    backBtnCEPnl.setVisible(true);
+                    validarIdEventoBtnCE.setVisible(true);
+                    headerValidarIdEventoLblCE.setVisible(true);
+                    clearFieldsVenderEntradas();
+                    clearFieldsVenderEntradas();
+                    currentEvento.mostrarAsistentes();//consola
+                    JOptionPane.showMessageDialog(null, "Reembolso exitoso. El asistente fue removido del evento y sus fondos reembolsados correctamente", "System Says",JOptionPane.INFORMATION_MESSAGE);
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "El asistente no pudo ser reembolsado ni removido del evento. Intente mas tarde.", "Unknown Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "El ID ingresado no corresponde a ningun asistente dentro del evento", "Field Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Los campos se encuentran vacios", "Field Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_reembolsarBtnCEActionPerformed
+
+    private void validarIdEventoBtnCEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validarIdEventoBtnCEActionPerformed
+        System.out.println(menu.checkEvento(idEventoFieldCE.getText()));//consola
+        
+        if(!"".equals(idEventoFieldCE.getText()) && menu.checkEvento(idEventoFieldCE.getText())){
+            currentEvento = menu.obtenerEvento(idEventoFieldCE.getText());
+            idEventoLblCE.setVisible(false);
+            idEventoFieldCE.setVisible(false);
+            validarIdEventoBtnCE.setVisible(false);
+            headerValidarIdEventoLblCE.setVisible(false);
+            backBtnCEPnl.setVisible(false);
+            idAsistLblCE.setVisible(true);
+            idAsistFieldCE.setVisible(true);
+            reembolsarBtnCE.setVisible(true);
+            headerLblCE.setVisible(true);
+            currentEvento.mostrarAsistentes();//consola
+        }
+        else{
+            clearFieldsVenderEntradas();
+            JOptionPane.showMessageDialog(null, "No Existe un Evento asociado a este ID");
+        }
+    }//GEN-LAST:event_validarIdEventoBtnCEActionPerformed
+    
+    //Funciones de limpiado
+    public void clearFieldsCancelEntrada() {
+        idAsistLblCE.setText("");
+        idEventoLblCE.setText("");
+    }
+    
+    public void clearFieldsVenderEntradas() {
+        idEventoFieldVE.setText("");
+    }
+    
+    public void clearFieldsDatosAsistente() {
+        idAsistenteFieldDA.setText("");
+        nombreAsistFieldDA.setText("");
+        edadAsistFieldDA.setText("");
+        emailFieldDA.setText("");
+    }
+
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CancelarEntradaBtn;
-    private javax.swing.JButton backBtnCEPnl1;
+    private javax.swing.JButton backBtnCEPnl;
     private javax.swing.JButton backBtnVEPnl;
     private javax.swing.JPanel backgroundPnl;
     private javax.swing.JPanel cancelEntradaPnl;
     private javax.swing.JPanel datosAsistentePnl;
-    private javax.swing.JTextField edadAsistField;
-    private javax.swing.JLabel edadAsistLbl;
-    private javax.swing.JTextField emailField;
-    private javax.swing.JLabel emailLbl;
-    private javax.swing.JLabel headerCELbl;
+    private javax.swing.JTextField edadAsistFieldDA;
+    private javax.swing.JLabel edadAsistLblDA;
+    private javax.swing.JTextField emailFieldDA;
+    private javax.swing.JLabel emailLblDA;
+    private javax.swing.JLabel headeLblVE;
     private javax.swing.JLabel headerLbl;
-    private javax.swing.JLabel headerVELbl;
-    private javax.swing.JLabel headerVELbl2;
-    private javax.swing.JTextField idAsistField;
-    private javax.swing.JLabel idAsistLbl;
-    private javax.swing.JTextField idAsistenteField;
-    private javax.swing.JLabel idAsistenteLbl;
-    private javax.swing.JTextField idEventoField;
-    private javax.swing.JLabel idEventoLbl;
-    private javax.swing.JTextField nombreAsistField;
-    private javax.swing.JLabel nombreAsistLbl;
-    private javax.swing.JButton realizarVentaBtn;
-    private javax.swing.JButton validarIDEventoBtn;
+    private javax.swing.JLabel headerLblCE;
+    private javax.swing.JLabel headerLblDA;
+    private javax.swing.JLabel headerValidarIdEventoLblCE;
+    private javax.swing.JTextField idAsistFieldCE;
+    private javax.swing.JLabel idAsistLblCE;
+    private javax.swing.JTextField idAsistenteFieldDA;
+    private javax.swing.JLabel idAsistenteLblDA;
+    private javax.swing.JTextField idEventoFieldCE;
+    private javax.swing.JTextField idEventoFieldVE;
+    private javax.swing.JLabel idEventoLblCE;
+    private javax.swing.JLabel idEventoLblVE;
+    private javax.swing.JTextField nombreAsistFieldDA;
+    private javax.swing.JLabel nombreAsistLblDA;
+    private javax.swing.JButton realizarVentaBtnDA;
+    private javax.swing.JButton reembolsarBtnCE;
+    private javax.swing.JButton validarIdEventoBtnCE;
+    private javax.swing.JButton validarIdEventoBtnVE;
     private javax.swing.JButton venderEntradasBtn;
     private javax.swing.JPanel venderEntradasPnl;
     // End of variables declaration//GEN-END:variables

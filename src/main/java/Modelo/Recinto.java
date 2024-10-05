@@ -1,52 +1,62 @@
 package Modelo;
 
+import Exceptions.BadIdRecintoException;
+
 public class Recinto {
 
-  private String idRecinto;
-  private String nombreRecinto;
-  private String ubicacion;
-  private int cupos;
-  // constructor
-  public Recinto(){
-     //empty
-  }
+    private String idRecinto;
+    private String nombreRecinto;
+    private String ubicacion;
+    private int cupos;
+    // constructor
+    public Recinto(){
+       //empty
+    }
 
-  
-  // setters
-  public void setIdRecinto(String idRecinto) {
-    //validaciones pertinentes
-    this.idRecinto = idRecinto;
-  }
 
-  public void setNombreRecinto(String nombreRecinto) {
-    //validaciones pertinentes
-    this.nombreRecinto = nombreRecinto;
-  }
+    // setters
+    public void setIdRecinto(String idRecinto) throws BadIdRecintoException{
+      if (!validarFormatoIdRecinto(idRecinto)){
+          throw new BadIdRecintoException();
+      }
+      this.idRecinto = idRecinto;
+    }
 
-  public void setUbicacion(String ubicacion) {
-    //validaciones pertinentes
-    this.ubicacion = ubicacion;
-  }
+    public void setNombreRecinto(String nombreRecinto) {
+      //validaciones pertinentes
+      this.nombreRecinto = nombreRecinto;
+    }
 
-  public void setCupos(int cupos) {
-    //validaciones pertinentes
-    this.cupos = cupos;
-  }
+    public void setUbicacion(String ubicacion) {
+      //validaciones pertinentes
+      this.ubicacion = ubicacion;
+    }
 
-  //getters
-  public String getIdRecinto() {
-    return idRecinto;
-  }
+    public void setCupos(int cupos) {
+      //validaciones pertinentes
+      this.cupos = cupos;
+    }
 
-  public String getNombreRecinto() {
-    return nombreRecinto;
-  }
+    //getters
+    public String getIdRecinto() {
+      return idRecinto;
+    }
 
-  public String getUbicacion() {
-    return ubicacion;
-  }
+    public String getNombreRecinto() {
+      return nombreRecinto;
+    }
 
-  public int getCupos() {
-    return cupos;
-  }
+    public String getUbicacion() {
+      return ubicacion;
+    }
+
+    public int getCupos() {
+      return cupos;
+    }
+    
+    //Funciones de Validacion para setters
+    public boolean validarFormatoIdRecinto(String idRecinto) {
+        return idRecinto.matches("\\d+");  // Regular expression that matches one or more digits
+    }
+    
 }

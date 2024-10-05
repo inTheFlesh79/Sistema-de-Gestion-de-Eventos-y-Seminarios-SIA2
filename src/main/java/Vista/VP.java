@@ -8,16 +8,18 @@ package Vista;
  *
  * @author MSI
  */
+import Exceptions.BadIdRecintoException;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import Modelo.Menu;
 
 public class VP extends javax.swing.JFrame {
 
     /**
      * Creates new form VP
      */
-    
+    private Menu menu = new Menu();
     
     private void showHome(Home h){
         h.setSize(768,578);
@@ -55,8 +57,11 @@ public class VP extends javax.swing.JFrame {
         dynamicContentPnl.repaint();
     }
     
-    public VP() {
+    public VP() throws BadIdRecintoException {
         initComponents();
+        System.out.println(menu.getMenu()); // Example usage of getMenu() from Menu class
+        menu.runWea();
+        
         Home h = new Home();
         showHome(h);
         this.setSize(1024, 768);  // Set the exact size you want for the JFrame
@@ -85,7 +90,7 @@ public class VP extends javax.swing.JFrame {
         
     }
     
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -251,6 +256,8 @@ public class VP extends javax.swing.JFrame {
 
     private void ventaEntradasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ventaEntradasBtnActionPerformed
         GestionEntradasEventos gee = new GestionEntradasEventos();
+        gee.setMenu(menu);
+        gee.setCurrentVP(this);
         showGestionEntradasEventos(gee);
     }//GEN-LAST:event_ventaEntradasBtnActionPerformed
 
@@ -261,6 +268,8 @@ public class VP extends javax.swing.JFrame {
 
     private void recintosBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recintosBtnActionPerformed
         GestionRecintos gr = new GestionRecintos();
+        gr.setMenu(menu);
+        gr.setCurrentVP(this);
         showGestionRecintos(gr);
     }//GEN-LAST:event_recintosBtnActionPerformed
 
@@ -276,52 +285,22 @@ public class VP extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new VP().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel backgroundPnl;
     private javax.swing.JPanel bannerPnl;
     private javax.swing.JPanel dynamicContentPnl;
-    private javax.swing.JButton eventosBtn;
-    private javax.swing.JButton exitBtn;
+    public javax.swing.JButton eventosBtn;
+    public javax.swing.JButton exitBtn;
     private javax.swing.JPanel headerPnl;
-    private javax.swing.JButton homeBtn;
+    public javax.swing.JButton homeBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JPanel menuPnl;
-    private javax.swing.JButton recintosBtn;
-    private javax.swing.JButton ventaEntradasBtn;
+    public javax.swing.JButton recintosBtn;
+    public javax.swing.JButton ventaEntradasBtn;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,21 +1,24 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+
 package Vista;
 
-/**
- *
- * @author MSI
- */
+import javax.swing.table.DefaultTableModel;
+import Modelo.Menu;
+
 public class GestionEventos extends javax.swing.JPanel {
 
     /**
      * Creates new form GestionEventos
      */
+    Menu menu = new Menu();
     public GestionEventos() {
         initComponents();
         crearEventoPnl.setVisible(false);
+        listadoEventos.setVisible(false);
+        listarAsistentesEventoPnl.setVisible(false);
+        modificarEventoPnl.setVisible(false);
+        eliminarEvento.setVisible(false);
+        mostrarEventosScrollPane.setVisible(false);
+        
     }
 
     /**
@@ -46,7 +49,46 @@ public class GestionEventos extends javax.swing.JPanel {
         valorEntradaField = new javax.swing.JTextField();
         idRecintoLbl = new javax.swing.JLabel();
         idRecintoField = new javax.swing.JTextField();
+        AceptarBtnPnl = new javax.swing.JButton();
         backBtnCEPnl = new javax.swing.JButton();
+        listadoEventos = new javax.swing.JPanel();
+        HeaderLELbl = new javax.swing.JLabel();
+        backBtnLEPnl = new javax.swing.JButton();
+        mostrarEventosScrollPane = new javax.swing.JScrollPane();
+        mostrarEventosTbl = new javax.swing.JTable();
+        modificarEventoPnl = new javax.swing.JPanel();
+        headerMELbl = new javax.swing.JLabel();
+        idEventoMELbl = new javax.swing.JLabel();
+        idEventoMEField1 = new javax.swing.JTextField();
+        nombreMELbl = new javax.swing.JLabel();
+        nombreMEField = new javax.swing.JTextField();
+        fechaMELbl = new javax.swing.JLabel();
+        fechaMEField = new javax.swing.JTextField();
+        descripMELbl = new javax.swing.JLabel();
+        descripMEField = new javax.swing.JTextField();
+        grupoMELbl = new javax.swing.JLabel();
+        grupoMEScrollPnl = new javax.swing.JScrollPane();
+        jList2 = new javax.swing.JList<>();
+        valorEntradaMELbl = new javax.swing.JLabel();
+        valorEntradaMEField = new javax.swing.JTextField();
+        idRecintoMELbl = new javax.swing.JLabel();
+        idRecintoMEField = new javax.swing.JTextField();
+        AceptarBtnMEPnl = new javax.swing.JButton();
+        backBtnMEPnl = new javax.swing.JButton();
+        listarAsistentesEventoPnl = new javax.swing.JPanel();
+        headerLAELbl1 = new javax.swing.JLabel();
+        idEventoLAELbl = new javax.swing.JLabel();
+        idEventoLAEField = new javax.swing.JTextField();
+        AceptarLAEMEPnl = new javax.swing.JButton();
+        scrollLAEPnl = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        backBtnLAEPnl = new javax.swing.JButton();
+        eliminarEvento = new javax.swing.JPanel();
+        HeaderEELbl = new javax.swing.JLabel();
+        idEventoEELbl = new javax.swing.JLabel();
+        idEventoFieldEE = new javax.swing.JTextField();
+        eliminarBtnPnl = new javax.swing.JButton();
+        backBtnEEPnl = new javax.swing.JButton();
         crearEventoBtn = new javax.swing.JButton();
         listarEventosBtn = new javax.swing.JButton();
         modEventoBtn = new javax.swing.JButton();
@@ -169,6 +211,16 @@ public class GestionEventos extends javax.swing.JPanel {
         });
         crearEventoPnl.add(idRecintoField, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 340, -1, -1));
 
+        AceptarBtnPnl.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        AceptarBtnPnl.setText("Aceptar");
+        AceptarBtnPnl.setPreferredSize(new java.awt.Dimension(128, 30));
+        AceptarBtnPnl.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AceptarBtnPnlActionPerformed(evt);
+            }
+        });
+        crearEventoPnl.add(AceptarBtnPnl, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 400, -1, -1));
+
         backBtnCEPnl.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         backBtnCEPnl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recurso/orangeGoBackArrow.png"))); // NOI18N
         backBtnCEPnl.setText("Atras");
@@ -181,6 +233,269 @@ public class GestionEventos extends javax.swing.JPanel {
         crearEventoPnl.add(backBtnCEPnl, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 400, -1, -1));
 
         backgroundPnl.add(crearEventoPnl, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, -1, -1));
+
+        listadoEventos.setBackground(new java.awt.Color(255, 255, 255));
+        listadoEventos.setMinimumSize(new java.awt.Dimension(660, 435));
+        listadoEventos.setPreferredSize(new java.awt.Dimension(710, 440));
+        listadoEventos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        HeaderLELbl.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        HeaderLELbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        HeaderLELbl.setText("Listado de Eventos");
+        HeaderLELbl.setPreferredSize(new java.awt.Dimension(400, 65));
+        listadoEventos.add(HeaderLELbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 0, -1, -1));
+
+        backBtnLEPnl.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        backBtnLEPnl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recurso/orangeGoBackArrow.png"))); // NOI18N
+        backBtnLEPnl.setText("Atras");
+        backBtnLEPnl.setPreferredSize(new java.awt.Dimension(128, 30));
+        backBtnLEPnl.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backBtnLEPnlActionPerformed(evt);
+            }
+        });
+        listadoEventos.add(backBtnLEPnl, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 400, -1, -1));
+
+        mostrarEventosTbl.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nombre", "Fecha", "Recinto", "Grupo Objetivo", "Descripcion"
+            }
+        ));
+        mostrarEventosScrollPane.setViewportView(mostrarEventosTbl);
+
+        listadoEventos.add(mostrarEventosScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 690, 320));
+
+        backgroundPnl.add(listadoEventos, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, -1, -1));
+
+        modificarEventoPnl.setBackground(new java.awt.Color(255, 255, 255));
+        modificarEventoPnl.setPreferredSize(new java.awt.Dimension(710, 440));
+        modificarEventoPnl.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        headerMELbl.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        headerMELbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        headerMELbl.setText("Por favor, Ingrese los datos para modificar el Evento");
+        headerMELbl.setMaximumSize(new java.awt.Dimension(377, 22));
+        headerMELbl.setMinimumSize(new java.awt.Dimension(377, 22));
+        headerMELbl.setPreferredSize(new java.awt.Dimension(400, 65));
+        modificarEventoPnl.add(headerMELbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 0, 450, -1));
+
+        idEventoMELbl.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        idEventoMELbl.setText("ID del Evento");
+        modificarEventoPnl.add(idEventoMELbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, -1, -1));
+
+        idEventoMEField1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        idEventoMEField1.setPreferredSize(new java.awt.Dimension(91, 22));
+        idEventoMEField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                idEventoMEField1ActionPerformed(evt);
+            }
+        });
+        modificarEventoPnl.add(idEventoMEField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, -1, -1));
+
+        nombreMELbl.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        nombreMELbl.setText("Nombre del Evento");
+        modificarEventoPnl.add(nombreMELbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, -1, -1));
+
+        nombreMEField.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        nombreMEField.setPreferredSize(new java.awt.Dimension(91, 22));
+        nombreMEField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nombreMEFieldActionPerformed(evt);
+            }
+        });
+        modificarEventoPnl.add(nombreMEField, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, -1, -1));
+
+        fechaMELbl.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        fechaMELbl.setText("Fecha del Evento");
+        modificarEventoPnl.add(fechaMELbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, -1, -1));
+
+        fechaMEField.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        fechaMEField.setPreferredSize(new java.awt.Dimension(91, 22));
+        fechaMEField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fechaMEFieldActionPerformed(evt);
+            }
+        });
+        modificarEventoPnl.add(fechaMEField, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, -1, -1));
+
+        descripMELbl.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        descripMELbl.setText("Descripcion del Evento");
+        modificarEventoPnl.add(descripMELbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, -1, -1));
+
+        descripMEField.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        descripMEField.setMinimumSize(new java.awt.Dimension(91, 22));
+        descripMEField.setPreferredSize(new java.awt.Dimension(91, 22));
+        descripMEField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                descripMEFieldActionPerformed(evt);
+            }
+        });
+        modificarEventoPnl.add(descripMEField, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 340, -1, -1));
+
+        grupoMELbl.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        grupoMELbl.setText("Seleccione un Grupo Objetivo para el Evento");
+        modificarEventoPnl.add(grupoMELbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 70, -1, -1));
+
+        jList2.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Infantes", "Adolescentes", "Adultos Jovenes", "Adultos", "Tercera Edad" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        grupoMEScrollPnl.setViewportView(jList2);
+
+        modificarEventoPnl.add(grupoMEScrollPnl, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 100, 110, 100));
+
+        valorEntradaMELbl.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        valorEntradaMELbl.setText("Valor de Entrada del Evento (CLP)");
+        modificarEventoPnl.add(valorEntradaMELbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 230, -1, -1));
+
+        valorEntradaMEField.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        valorEntradaMEField.setPreferredSize(new java.awt.Dimension(91, 22));
+        valorEntradaMEField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                valorEntradaMEFieldActionPerformed(evt);
+            }
+        });
+        modificarEventoPnl.add(valorEntradaMEField, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 260, -1, -1));
+
+        idRecintoMELbl.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        idRecintoMELbl.setText("ID del Recinto donde se alojara el Evento");
+        modificarEventoPnl.add(idRecintoMELbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 310, -1, -1));
+
+        idRecintoMEField.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        idRecintoMEField.setPreferredSize(new java.awt.Dimension(91, 22));
+        idRecintoMEField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                idRecintoMEFieldActionPerformed(evt);
+            }
+        });
+        modificarEventoPnl.add(idRecintoMEField, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 340, -1, -1));
+
+        AceptarBtnMEPnl.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        AceptarBtnMEPnl.setText("Aceptar");
+        AceptarBtnMEPnl.setPreferredSize(new java.awt.Dimension(128, 30));
+        AceptarBtnMEPnl.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AceptarBtnMEPnlActionPerformed(evt);
+            }
+        });
+        modificarEventoPnl.add(AceptarBtnMEPnl, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 400, -1, -1));
+
+        backBtnMEPnl.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        backBtnMEPnl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recurso/orangeGoBackArrow.png"))); // NOI18N
+        backBtnMEPnl.setText("Atras");
+        backBtnMEPnl.setPreferredSize(new java.awt.Dimension(128, 30));
+        backBtnMEPnl.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backBtnMEPnlActionPerformed(evt);
+            }
+        });
+        modificarEventoPnl.add(backBtnMEPnl, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 400, -1, -1));
+
+        backgroundPnl.add(modificarEventoPnl, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, -1, -1));
+
+        listarAsistentesEventoPnl.setBackground(new java.awt.Color(255, 255, 255));
+        listarAsistentesEventoPnl.setMinimumSize(new java.awt.Dimension(656, 431));
+        listarAsistentesEventoPnl.setPreferredSize(new java.awt.Dimension(710, 440));
+        listarAsistentesEventoPnl.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        headerLAELbl1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        headerLAELbl1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        headerLAELbl1.setText("Por favor, Ingrese los datos solicitados");
+        headerLAELbl1.setMaximumSize(new java.awt.Dimension(377, 22));
+        headerLAELbl1.setMinimumSize(new java.awt.Dimension(377, 22));
+        headerLAELbl1.setPreferredSize(new java.awt.Dimension(400, 65));
+        listarAsistentesEventoPnl.add(headerLAELbl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 0, 450, -1));
+
+        idEventoLAELbl.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        idEventoLAELbl.setText("ID del Evento");
+        listarAsistentesEventoPnl.add(idEventoLAELbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, -1, -1));
+
+        idEventoLAEField.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        idEventoLAEField.setPreferredSize(new java.awt.Dimension(91, 22));
+        idEventoLAEField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                idEventoLAEFieldActionPerformed(evt);
+            }
+        });
+        listarAsistentesEventoPnl.add(idEventoLAEField, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, -1, -1));
+
+        AceptarLAEMEPnl.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        AceptarLAEMEPnl.setText("Aceptar");
+        AceptarLAEMEPnl.setPreferredSize(new java.awt.Dimension(128, 30));
+        AceptarLAEMEPnl.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AceptarLAEMEPnlActionPerformed(evt);
+            }
+        });
+        listarAsistentesEventoPnl.add(AceptarLAEMEPnl, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 100, -1, -1));
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        scrollLAEPnl.setViewportView(jTextArea1);
+
+        listarAsistentesEventoPnl.add(scrollLAEPnl, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 490, 210));
+
+        backBtnLAEPnl.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        backBtnLAEPnl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recurso/orangeGoBackArrow.png"))); // NOI18N
+        backBtnLAEPnl.setText("Atras");
+        backBtnLAEPnl.setPreferredSize(new java.awt.Dimension(128, 30));
+        backBtnLAEPnl.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backBtnLAEPnlActionPerformed(evt);
+            }
+        });
+        listarAsistentesEventoPnl.add(backBtnLAEPnl, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 400, -1, -1));
+
+        backgroundPnl.add(listarAsistentesEventoPnl, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, -1, -1));
+
+        eliminarEvento.setBackground(new java.awt.Color(255, 255, 255));
+        eliminarEvento.setPreferredSize(new java.awt.Dimension(710, 440));
+        eliminarEvento.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        HeaderEELbl.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        HeaderEELbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        HeaderEELbl.setText("Listado de Eventos");
+        HeaderEELbl.setPreferredSize(new java.awt.Dimension(400, 65));
+        eliminarEvento.add(HeaderEELbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 0, -1, -1));
+
+        idEventoEELbl.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        idEventoEELbl.setText("Ingrese el ID del evento a eliminar:");
+        eliminarEvento.add(idEventoEELbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, -1, -1));
+
+        idEventoFieldEE.setPreferredSize(new java.awt.Dimension(91, 22));
+        idEventoFieldEE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                idEventoFieldEEActionPerformed(evt);
+            }
+        });
+        eliminarEvento.add(idEventoFieldEE, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, -1, -1));
+
+        eliminarBtnPnl.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        eliminarBtnPnl.setText("Eliminar");
+        eliminarBtnPnl.setPreferredSize(new java.awt.Dimension(75, 43));
+        eliminarBtnPnl.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eliminarBtnPnlActionPerformed(evt);
+            }
+        });
+        eliminarEvento.add(eliminarBtnPnl, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, -1, -1));
+
+        backBtnEEPnl.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        backBtnEEPnl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recurso/orangeGoBackArrow.png"))); // NOI18N
+        backBtnEEPnl.setText("Atras");
+        backBtnEEPnl.setPreferredSize(new java.awt.Dimension(128, 30));
+        backBtnEEPnl.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backBtnEEPnlActionPerformed(evt);
+            }
+        });
+        eliminarEvento.add(backBtnEEPnl, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 400, -1, -1));
+
+        backgroundPnl.add(eliminarEvento, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, -1, -1));
 
         crearEventoBtn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         crearEventoBtn.setText("Crear un Evento");
@@ -270,18 +585,51 @@ public class GestionEventos extends javax.swing.JPanel {
 
     private void listarEventosBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarEventosBtnActionPerformed
         // TODO add your handling code here:
+        listadoEventos.setVisible(true);
+        mostrarEventosScrollPane.setVisible(true);
+        crearEventoBtn.setVisible(false);
+        listarEventosBtn.setVisible(false);
+        modEventoBtn.setVisible(false);
+        eliminarEventoBtn.setVisible(false);
+        listarAsistentesBtn.setVisible(false);
+        modAsistenteBtn.setVisible(false);
+        recaudEventoBtn.setVisible(false);
+        
+        menu.mostrarEventos();
     }//GEN-LAST:event_listarEventosBtnActionPerformed
 
     private void modEventoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modEventoBtnActionPerformed
-        // TODO add your handling code here:
+        modificarEventoPnl.setVisible(true);
+        crearEventoBtn.setVisible(false);
+        listarEventosBtn.setVisible(false);
+        modEventoBtn.setVisible(false);
+        eliminarEventoBtn.setVisible(false);
+        listarAsistentesBtn.setVisible(false);
+        modAsistenteBtn.setVisible(false);
+        recaudEventoBtn.setVisible(false);
     }//GEN-LAST:event_modEventoBtnActionPerformed
 
     private void eliminarEventoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarEventoBtnActionPerformed
         // TODO add your handling code here:
+        eliminarEvento.setVisible(true);
+        crearEventoBtn.setVisible(false);
+        listarEventosBtn.setVisible(false);
+        modEventoBtn.setVisible(false);
+        eliminarEventoBtn.setVisible(false);
+        listarAsistentesBtn.setVisible(false);
+        modAsistenteBtn.setVisible(false);
+        recaudEventoBtn.setVisible(false);
     }//GEN-LAST:event_eliminarEventoBtnActionPerformed
-
+    
     private void listarAsistentesBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarAsistentesBtnActionPerformed
-        // TODO add your handling code here:
+        listarAsistentesEventoPnl.setVisible(true);
+        crearEventoBtn.setVisible(false);
+        listarEventosBtn.setVisible(false);
+        modEventoBtn.setVisible(false);
+        eliminarEventoBtn.setVisible(false);
+        listarAsistentesBtn.setVisible(false);
+        modAsistenteBtn.setVisible(false);
+        recaudEventoBtn.setVisible(false);
     }//GEN-LAST:event_listarAsistentesBtnActionPerformed
 
     private void modAsistenteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modAsistenteBtnActionPerformed
@@ -314,7 +662,23 @@ public class GestionEventos extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_valorEntradaFieldActionPerformed
 
+    private void AceptarBtnPnlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarBtnPnlActionPerformed
+        crearEventoPnl.setVisible(false);
+        crearEventoBtn.setVisible(true);
+        listarEventosBtn.setVisible(true);
+        modEventoBtn.setVisible(true);
+        eliminarEventoBtn.setVisible(true);
+        listarAsistentesBtn.setVisible(true);
+        modAsistenteBtn.setVisible(true);
+        recaudEventoBtn.setVisible(true);
+    }//GEN-LAST:event_AceptarBtnPnlActionPerformed
+
+    private void idRecintoFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idRecintoFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_idRecintoFieldActionPerformed
+
     private void backBtnCEPnlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnCEPnlActionPerformed
+        // TODO add your handling code here:
         crearEventoPnl.setVisible(false);
         crearEventoBtn.setVisible(true);
         listarEventosBtn.setVisible(true);
@@ -325,38 +689,174 @@ public class GestionEventos extends javax.swing.JPanel {
         recaudEventoBtn.setVisible(true);
     }//GEN-LAST:event_backBtnCEPnlActionPerformed
 
-    private void idRecintoFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idRecintoFieldActionPerformed
+    private void backBtnLEPnlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnLEPnlActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_idRecintoFieldActionPerformed
+        listadoEventos.setVisible(false);
+        mostrarEventosScrollPane.setVisible(false);
+        crearEventoBtn.setVisible(true);
+        listarEventosBtn.setVisible(true);
+        modEventoBtn.setVisible(true);
+        eliminarEventoBtn.setVisible(true);
+        listarAsistentesBtn.setVisible(true);
+        modAsistenteBtn.setVisible(true);
+        recaudEventoBtn.setVisible(true);
+    }//GEN-LAST:event_backBtnLEPnlActionPerformed
 
+    private void backBtnEEPnlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnEEPnlActionPerformed
+        // TODO add your handling code here:
+        eliminarEvento.setVisible(false);
+        crearEventoBtn.setVisible(true);
+        listarEventosBtn.setVisible(true);
+        modEventoBtn.setVisible(true);
+        eliminarEventoBtn.setVisible(true);
+        listarAsistentesBtn.setVisible(true);
+        modAsistenteBtn.setVisible(true);
+        recaudEventoBtn.setVisible(true);
+    }//GEN-LAST:event_backBtnEEPnlActionPerformed
+
+    private void idEventoFieldEEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idEventoFieldEEActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_idEventoFieldEEActionPerformed
+
+    private void eliminarBtnPnlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarBtnPnlActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_eliminarBtnPnlActionPerformed
+
+    private void idEventoMEField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idEventoMEField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_idEventoMEField1ActionPerformed
+
+    private void nombreMEFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreMEFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nombreMEFieldActionPerformed
+
+    private void fechaMEFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fechaMEFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fechaMEFieldActionPerformed
+
+    private void descripMEFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descripMEFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_descripMEFieldActionPerformed
+
+    private void valorEntradaMEFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_valorEntradaMEFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_valorEntradaMEFieldActionPerformed
+
+    private void idRecintoMEFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idRecintoMEFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_idRecintoMEFieldActionPerformed
+
+    private void AceptarBtnMEPnlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarBtnMEPnlActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AceptarBtnMEPnlActionPerformed
+
+    private void backBtnMEPnlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnMEPnlActionPerformed
+        // TODO add your handling code here:
+        modificarEventoPnl.setVisible(false);
+        crearEventoBtn.setVisible(true);
+        listarEventosBtn.setVisible(true);
+        modEventoBtn.setVisible(true);
+        eliminarEventoBtn.setVisible(true);
+        listarAsistentesBtn.setVisible(true);
+        modAsistenteBtn.setVisible(true);
+        recaudEventoBtn.setVisible(true);
+    }//GEN-LAST:event_backBtnMEPnlActionPerformed
+
+    private void idEventoLAEFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idEventoLAEFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_idEventoLAEFieldActionPerformed
+
+    private void AceptarLAEMEPnlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarLAEMEPnlActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AceptarLAEMEPnlActionPerformed
+
+    private void backBtnLAEPnlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnLAEPnlActionPerformed
+        // TODO add your handling code here:
+        listarAsistentesEventoPnl.setVisible(false);
+        crearEventoBtn.setVisible(true);
+        listarEventosBtn.setVisible(true);
+        modEventoBtn.setVisible(true);
+        eliminarEventoBtn.setVisible(true);
+        listarAsistentesBtn.setVisible(true);
+        modAsistenteBtn.setVisible(true);
+        recaudEventoBtn.setVisible(true);
+
+    }//GEN-LAST:event_backBtnLAEPnlActionPerformed
+
+    public void llenarModelo(String nombre, String fecha, String recinto, String grupoObjetivo, String descripcion){
+        DefaultTableModel datos = (DefaultTableModel) mostrarEventosTbl.getModel();
+        Object[] fila = {nombre, fecha, recinto, grupoObjetivo, descripcion};
+        datos.addRow(fila);
+    }
+    
+ 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AceptarBtnMEPnl;
+    private javax.swing.JButton AceptarBtnPnl;
+    private javax.swing.JButton AceptarLAEMEPnl;
+    private javax.swing.JLabel HeaderEELbl;
+    private javax.swing.JLabel HeaderLELbl;
     private javax.swing.JButton backBtnCEPnl;
+    private javax.swing.JButton backBtnEEPnl;
+    private javax.swing.JButton backBtnLAEPnl;
+    private javax.swing.JButton backBtnLEPnl;
+    private javax.swing.JButton backBtnMEPnl;
     private javax.swing.JPanel backgroundPnl;
     private javax.swing.JButton crearEventoBtn;
     private javax.swing.JPanel crearEventoPnl;
     private javax.swing.JTextField descripField;
     private javax.swing.JLabel descripLbl;
+    private javax.swing.JTextField descripMEField;
+    private javax.swing.JLabel descripMELbl;
+    private javax.swing.JButton eliminarBtnPnl;
+    private javax.swing.JPanel eliminarEvento;
     private javax.swing.JButton eliminarEventoBtn;
     private javax.swing.JTextField fechaField;
     private javax.swing.JLabel fechaLbl;
+    private javax.swing.JTextField fechaMEField;
+    private javax.swing.JLabel fechaMELbl;
     private javax.swing.JLabel grupoLbl;
+    private javax.swing.JLabel grupoMELbl;
+    private javax.swing.JScrollPane grupoMEScrollPnl;
     private javax.swing.JScrollPane grupoScrollPnl;
+    private javax.swing.JLabel headerLAELbl1;
+    private javax.swing.JLabel headerMELbl;
     private javax.swing.JLabel headerPnl;
     private javax.swing.JLabel headerVELbl;
+    private javax.swing.JLabel idEventoEELbl;
     private javax.swing.JTextField idEventoField;
+    private javax.swing.JTextField idEventoFieldEE;
+    private javax.swing.JTextField idEventoLAEField;
+    private javax.swing.JLabel idEventoLAELbl;
     private javax.swing.JLabel idEventoLbl;
+    private javax.swing.JTextField idEventoMEField1;
+    private javax.swing.JLabel idEventoMELbl;
     private javax.swing.JTextField idRecintoField;
     private javax.swing.JLabel idRecintoLbl;
+    private javax.swing.JTextField idRecintoMEField;
+    private javax.swing.JLabel idRecintoMELbl;
     private javax.swing.JList<String> jList1;
+    private javax.swing.JList<String> jList2;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JPanel listadoEventos;
     private javax.swing.JButton listarAsistentesBtn;
+    private javax.swing.JPanel listarAsistentesEventoPnl;
     private javax.swing.JButton listarEventosBtn;
     private javax.swing.JButton modAsistenteBtn;
     private javax.swing.JButton modEventoBtn;
+    private javax.swing.JPanel modificarEventoPnl;
+    private javax.swing.JScrollPane mostrarEventosScrollPane;
+    private javax.swing.JTable mostrarEventosTbl;
     private javax.swing.JTextField nombreField;
     private javax.swing.JLabel nombreLbl;
+    private javax.swing.JTextField nombreMEField;
+    private javax.swing.JLabel nombreMELbl;
     private javax.swing.JButton recaudEventoBtn;
+    private javax.swing.JScrollPane scrollLAEPnl;
     private javax.swing.JTextField valorEntradaField;
     private javax.swing.JLabel valorEntradaLbl;
+    private javax.swing.JTextField valorEntradaMEField;
+    private javax.swing.JLabel valorEntradaMELbl;
     // End of variables declaration//GEN-END:variables
 }

@@ -23,6 +23,11 @@ public class Evento{
     private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
     // constructor Evento.
+    
+    public Evento(){
+        //empty
+    }
+    
     public Evento (String idRecinto, String nombre, String fecha, String descripcion, String gO) {
         //inserte validaciones pertinentes
         nombreEvento = nombre;
@@ -33,65 +38,44 @@ public class Evento{
     }
 
     public void inicializarAsistentes(){
-        Asistente asistente1 = new Asistente("123", "Alexis Sanchez", 18, "messi@gmail.com");
-        Asistente asistente2 = new Asistente("124", "Vicente VANcoco", 20, "viceVancoco@mail.pucv.cl");
+        Asistente asistente1 = new Asistente("A123", "Alexis Sanchez", 18, "messi@gmail.com");
+        Asistente asistente2 = new Asistente("A124", "Vicente VANcoco", 20, "viceVancoco@mail.pucv.cl");
         arrayAsistentes.add(asistente1);
         arrayAsistentes.add(asistente2);
     }
 
     /*Funcion que agrega un asistente al evento, y vende una entrada*/
-    public boolean ventaEntrada(Asistente newAsistente, String idAsistente) throws IOException {
-
-        if (obtenerAsistente(arrayAsistentes, idAsistente) != null) { // verificar si el id estÃ¡ en el mapa
-            System.out.println("ID YA SE ENCUENTRA REGISTRADA");
-            return false; // no se agrego
-        }
-        
-        //Se incrementa el monto total del evento
+    public void ventaEntrada(Asistente newAsistente) {
         montoTotal += valorEntrada;
-
         arrayAsistentes.add(newAsistente);
-
-        return true;
     } 
 
-    private Asistente obtenerAsistente(ArrayList<Asistente> lista, String id){
+    public Asistente obtenerAsistente(String id){
         int i;
         Asistente asisTMP;
-        for (i = 0; i < lista.size(); i++){
-            asisTMP = (Asistente) lista.get(i);
+        for (i = 0; i < arrayAsistentes.size(); i++){
+            asisTMP = (Asistente) arrayAsistentes.get(i);
             if( asisTMP.getidAsistente().equals(id) ){
                 return asisTMP;
             }
         }
-
         return null;
-
     }
 
-    public boolean eliminarAsistente(BufferedReader lector) throws IOException {
-        String idAsistente;
-        System.out.println("Ingrese el id del Asistente a eliminar: ");
-        idAsistente = lector.readLine();
-        
-        
-        
-
-        Asistente pepe =(Asistente) obtenerAsistente(arrayAsistentes, idAsistente);
-
-        if (obtenerAsistente(arrayAsistentes, idAsistente) != null){
+    public boolean eliminarAsistente(String idAsistente) {      
+        Asistente a = (Asistente) obtenerAsistente(idAsistente);
+        if (obtenerAsistente(idAsistente) != null){
             montoTotal -= valorEntrada; // se descuenta por el reembolso
-            arrayAsistentes.remove(pepe);
+            arrayAsistentes.remove(a);
             return true; // se removio corretamente.
         }
-
         return false;
     }
 
     public boolean modificarAsistente(String idAsistente, BufferedReader reader) throws IOException{
         String nombreAsistente, email;
         int edad;
-        Asistente asisTMP = (Asistente) obtenerAsistente(arrayAsistentes, idAsistente);
+        Asistente asisTMP = (Asistente) obtenerAsistente(idAsistente);
 
         if (asisTMP != null){
             System.out.println("Ingrese nuevo nombre del asistente");
@@ -113,8 +97,9 @@ public class Evento{
     public void mostrarAsistentes(){
 
         int i;
+        System.out.println("**Asistentes del evento: "+ nombreEvento+"** \n");
         for (i = 0; i < arrayAsistentes.size(); i++){
-            System.out.println("**Asistentes del evento: "+ nombreEvento+"** \n");
+            
 
             System.out.println("Id Asistente: "+arrayAsistentes.get(i).getidAsistente());
             System.out.println("Nombre Asistente: "+arrayAsistentes.get(i).getNombre());
