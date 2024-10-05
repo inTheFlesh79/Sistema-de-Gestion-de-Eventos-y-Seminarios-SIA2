@@ -14,6 +14,12 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author MSI
  */
+
+/*
+    POR FAVOR LEER LA NOMENCLATURA DE FUNCIONES, JBUTTONS Y DEMAS.
+    PARA ELLO, PUEDEN ENCONTRARLA MAS ABAJO EN LA LINEA 495 Y ASI ENTENDER QUE CONTROLA CADA FUNCION
+*/
+
 public class GestionRecintos extends javax.swing.JPanel {
 
     /**
@@ -24,6 +30,7 @@ public class GestionRecintos extends javax.swing.JPanel {
     private Menu menu;
     private VP currentVP;
     
+    //Constructor de GestionRecintos. Oculta los paneles asociados a cada JButton Principal.
     public GestionRecintos() {
         initComponents();
         crearRecintoPnl.setVisible(false);
@@ -32,6 +39,9 @@ public class GestionRecintos extends javax.swing.JPanel {
         datosRecintoPnl.setVisible(false);
         eliminarRecintoPnl.setVisible(false);
     }
+    
+    
+    //============================ Setters para las instancias actuales de Menu y VP ============================
     
     public void setCurrentVP(VP vp){
         currentVP = vp;
@@ -419,7 +429,8 @@ public class GestionRecintos extends javax.swing.JPanel {
         add(backgroundPnl, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
-    //========== BOTONES =======================================================
+    //============================ JButtons Principales del Panel GestionRecintos ============================
+    
     
     private void crearRecintoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearRecintoBtnActionPerformed
         crearRecintoPnl.setVisible(true);
@@ -433,7 +444,6 @@ public class GestionRecintos extends javax.swing.JPanel {
         currentVP.exitBtn.setVisible(false);
         currentVP.homeBtn.setVisible(false);
         currentVP.exportarDatosBtn.setVisible(false);
-        menu.mostrarRecintos();//consola
     }//GEN-LAST:event_crearRecintoBtnActionPerformed
 
     private void listarRecintosBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarRecintosBtnActionPerformed
@@ -464,9 +474,8 @@ public class GestionRecintos extends javax.swing.JPanel {
         currentVP.exitBtn.setVisible(false);
         currentVP.homeBtn.setVisible(false);
         currentVP.exportarDatosBtn.setVisible(false);
-        menu.mostrarRecintos();//consola
     }//GEN-LAST:event_modRecintoBtnActionPerformed
-
+    
     private void eliminarRecintoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarRecintoBtnActionPerformed
         eliminarRecintoPnl.setVisible(true);
         crearRecintoBtn.setVisible(false);
@@ -479,10 +488,25 @@ public class GestionRecintos extends javax.swing.JPanel {
         currentVP.exitBtn.setVisible(false);
         currentVP.homeBtn.setVisible(false);
         currentVP.exportarDatosBtn.setVisible(false);
-        menu.mostrarRecintos();//consola
     }//GEN-LAST:event_eliminarRecintoBtnActionPerformed
-    //==========================================================================
     
+    //============= Funciones de Retorno (backBtn), JButtons y JTextFields que interactuan con el usuario ===============
+    
+    /*
+        NOMENCLATURA PARA LEER FUNCIONES:
+    
+        backBtn*SIGLA*: JButton que devuelve al panel principal de GestionRecintos.
+        aceptarBtn*SIGLA* - validarIDBtn*SIGLA* - buscarBtn*SIGLA*: JButton que registra la entrada y salida de datos en la ventana.
+        clearFields*NOMBRE*: Funcion que limpia los campos JTextFields de funciones especificas.
+        *NOMBRECOMPLETO*Btn: JButtons principales del panel GestionRecintos.
+    
+        SIGLAS:
+        CR = Crear Recinto
+        LR = Listar Recintos
+        MR = Modificar Recinto
+        ER = Eliminar Recinto
+        DR = Datos Recinto
+    */
     
     private void backBtnCRPnlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnCRPnlActionPerformed
         crearRecintoPnl.setVisible(false);
@@ -552,7 +576,6 @@ public class GestionRecintos extends javax.swing.JPanel {
             if (menu.obtenerRecinto(idRecintoFieldCR.getText()) == null){
                 try{
                     menu.agregarRecinto(idRecintoFieldCR.getText(),nombreRecintoFieldCR.getText(),ubicacionFieldCR.getText(),cuposFieldCR.getText());
-                    menu.mostrarRecintos();//consola
 
                     crearRecintoPnl.setVisible(false);
                     crearRecintoBtn.setVisible(true);
@@ -568,10 +591,11 @@ public class GestionRecintos extends javax.swing.JPanel {
                     clearFieldsCrearRecinto();
                     JOptionPane.showMessageDialog(null, "El recinto fue creado y agregado correctamente al sistema", "System Says",JOptionPane.INFORMATION_MESSAGE);
                 }
-                catch(BadIdRecintoException e){
+                catch(BadIdRecintoException e){//Excepcion por formato erroneo de idRecinto
                     JOptionPane.showMessageDialog(null, e.getMessage(), "ID Error", JOptionPane.ERROR_MESSAGE);
                     return;
-                }catch(IllegalArgumentException e){
+                }
+                catch(IllegalArgumentException e){//Excepcion por valor inapropiado para cupos
                     JOptionPane.showMessageDialog(null, e.getMessage(), "Cupos Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
@@ -597,8 +621,6 @@ public class GestionRecintos extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_aceptarBtnCRActionPerformed
     
-    
-    
     private void aceptarBtnDRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarBtnDRActionPerformed
         if (!"".equals(nombreRecintoFieldDR.getText()) &&
             !"".equals(ubicacionFieldDR.getText()) &&
@@ -610,7 +632,6 @@ public class GestionRecintos extends javax.swing.JPanel {
                             + "Los cupos ingresados no son suficientes para los eventos asociados a este recinto, o se debe a un error desconocido.", "ModificarRecinto Error",JOptionPane.ERROR_MESSAGE);
                 }
                 else{
-                    menu.mostrarRecintos();//consola
                     datosRecintoPnl.setVisible(false);
                     crearRecintoBtn.setVisible(true);
                     listarRecintosBtn.setVisible(true);
@@ -628,7 +649,7 @@ public class GestionRecintos extends javax.swing.JPanel {
                 }
                 
                 
-            }catch(IllegalArgumentException e){
+            }catch(IllegalArgumentException e){//Excepcion por valor inapropiado para cupos
                 JOptionPane.showMessageDialog(null, e.getMessage(), "Cupos Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -657,7 +678,6 @@ public class GestionRecintos extends javax.swing.JPanel {
         if (!"".equals(idRecintoFieldER.getText())){
             if (menu.obtenerRecinto(idRecintoFieldER.getText()) != null){
                 menu.eliminarRecinto(idRecintoFieldER.getText());
-                menu.mostrarRecintos();//consola
                 
                 eliminarRecintoPnl.setVisible(false);
                 crearRecintoBtn.setVisible(true);
@@ -674,7 +694,7 @@ public class GestionRecintos extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(null, "El recinto fue eliminado correctamente del sistema", "System Says",JOptionPane.INFORMATION_MESSAGE);
             }
             else{
-                 JOptionPane.showMessageDialog(null, "El recinto ingresado no se encuentra asociado a una ID en el sistema", "ID Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "El recinto ingresado no se encuentra asociado a una ID en el sistema", "ID Error", JOptionPane.ERROR_MESSAGE);
             }
         }
         else{
@@ -692,7 +712,7 @@ public class GestionRecintos extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_buscarIdRecintoBtnLRActionPerformed
 
-    //Funciones de limpiado
+    //============================ Funciones de limpiado de campos tipo JTextField ============================
     public void clearFieldsCrearRecinto() {
         idRecintoFieldCR.setText("");
         nombreRecintoFieldCR.setText("");

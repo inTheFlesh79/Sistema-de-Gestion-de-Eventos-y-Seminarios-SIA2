@@ -2,12 +2,13 @@ package Modelo;
 
 
 /**
- *
  * Integrantes:
  * Constanza Contreras
  * Vicente Parada
  * Raul Rozas
  */
+
+ 
 import Exceptions.BadIdAsistenteException;
 import Exceptions.BadRangeEdadException;
 import java.io.*;
@@ -31,11 +32,16 @@ public class Evento{
     public Evento(){
         //empty
     }
-    
+    //Esta Funcion carga los datos del archivo CSV y los agrega al ArrayList de Recintos.
     public boolean cargarDatosArrayListAsistentes(String idEvento) {
         String rutaCSV = "src/Recurso/datosAsistentes.csv"; 
         String currentLineaCSV;
-
+        
+        /*
+            El manejo de excepciones en esta funcion no tiene influencias en la Vista del programa,
+            ya que, la funciones creadas para las colecciones utilizadas (agregar, eliminar, etc)
+            se encargan de que todos los datos esten cumpliendo las normas y formatos que se esperan de ellos
+        */
         try (BufferedReader reader = new BufferedReader(new FileReader(rutaCSV))) {
             currentLineaCSV = reader.readLine();
             while (currentLineaCSV != null) { 
@@ -51,6 +57,7 @@ public class Evento{
                             arrayAsistentes.add(newAsistente);
                         } 
                         catch (BadIdAsistenteException | BadRangeEdadException | NumberFormatException e) {
+                            // Retorna false si ocurre alguna excepcion durante la validacion de datos
                             return false;
                         }
                     }
@@ -61,13 +68,18 @@ public class Evento{
         catch (IOException e) {
             return false;
         }
-
         return true;
     }
-    
+    // Esta Funcion guarda los datos de los asistentes en un archivo CSV asociado a un evento.
+    // Agrega las entradas al archivo en modo append, permitiendo añadir nuevos datos sin sobrescribir los existentes
     public boolean guardarDatosArrayAsistentes(String idEvento){
         String rutaAsistentesCSV = "src/Recurso/datosAsistentes.csv";
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(rutaAsistentesCSV, true))) { // Append mode
+        /*
+            El manejo de excepciones en esta funcion no tiene influencias en la Vista del programa,
+            ya que, la funciones creadas para las colecciones utilizadas (agregar, eliminar, etc)
+            se encargan de que todos los datos esten cumpliendo las normas y formatos que se esperan de ellos
+        */
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(rutaAsistentesCSV, true))) {
             for (int i = 0; i < arrayAsistentes.size(); i++) {
                 Asistente asistente = arrayAsistentes.get(i);
                 String newLineaCSV = asistente.getidAsistente() + "," +
@@ -80,27 +92,20 @@ public class Evento{
             }
         } 
         catch (IOException e) {
-            System.out.println("Error writing to file: " + e.getMessage());
-            return false;
+            return false; 
         }
-        System.out.println("Data Asistentes Saved!");
-        return true;
+        return true; 
     }
     
+    // Esta funcion calcula el monto total del evento
     public void calcularMontoTotal(){//MODIFICAR
         int tamano = arrayAsistentes.size();
         setMontoTotal(tamano * this.valorEntrada);
     }
     
-
-    /*public void inicializarAsistentes(){
-        Asistente asistente1 = new Asistente("A123", "Alexis Sanchez", 18, "messi@gmail.com");
-        Asistente asistente2 = new Asistente("A124", "Vicente VANcoco", 20, "viceVancoco@mail.pucv.cl");
-        arrayAsistentes.add(asistente1);
-        arrayAsistentes.add(asistente2);
-    }*/
-
-    /*Funcion que agrega un asistente al evento, y vende una entrada*/
+    
+    //Esta Funcion agrega un asistente al evento y vende una entrada.
+    //Lanza excepciones si el id, la edad o el formato de los datos del asistente son incorrectos.
     public void ventaEntrada(String idAsistente, String nombre, String email, String edad) throws BadIdAsistenteException, BadRangeEdadException, IllegalArgumentException{
         Asistente newA = new Asistente();
         newA.setidAsistente(idAsistente);
@@ -113,19 +118,21 @@ public class Evento{
         arrayAsistentes.add(newA);
         montoTotal += valorEntrada;
     } 
-
+    
+    //Esta cuncion obtiene el asistente del evento mediante un ID Asistente.
     public Asistente obtenerAsistente(String id){
         int i;
         Asistente asisTMP;
         for (i = 0; i < arrayAsistentes.size(); i++){
             asisTMP = (Asistente) arrayAsistentes.get(i);
             if( asisTMP.getidAsistente().equals(id) ){
-                return asisTMP;
+                return asisTMP; // retorna el Asistente en caso de encontrarlo
             }
         }
-        return null;
+        return null; // si no encuentra nada entonces retorna null
     }
 
+    // Esta funcion elimina un asistete de un evento a partir del ID Asistente.
     public boolean eliminarAsistente(String idAsistente) {      
         Asistente a = (Asistente) obtenerAsistente(idAsistente);
         if (obtenerAsistente(idAsistente) != null){
@@ -133,23 +140,29 @@ public class Evento{
             arrayAsistentes.remove(a);
             return true; // se removio corretamente.
         }
-        return false;
+        return false; // no se removió ya que no se encontró el asistente.
     }
     
+    // Esta Funcion modifica los detalles de un asistente existente, incluyendo su nombre, edad y email.
+    // Lanza excepciones si la edad no es un valor numérico válido o si el asistente no se encuentra.
     public boolean modificarAsistente(String idAsistente, String nombreAsistente, String edad, String email) throws BadRangeEdadException, IllegalArgumentException{//TOMAR DE EJEMPLO PARA CAMBIAR LOGICA TRY-CATCH
         Asistente asisTMP = (Asistente) obtenerAsistente(idAsistente);
         if (asisTMP != null){
             asisTMP.setNombre(nombreAsistente);
             if (!edad.matches("\\d+")){
+                // Lanza una excepción si la edad no es un número válido
                 throw new IllegalArgumentException("ERROR: Edad Invalida. Por favor, ingrese solo valores numericos.");
             }
             asisTMP.setEdad(Integer.parseInt(edad));
             asisTMP.setEmail(email);
-            return true;
+            return true; // Modificación exitosa
         }
-        return false;
+        return false; // Asistente no encontrado
     }
     
+    
+    //Esta Funcion muestra la lista de asistentes en una tabla, limpiando previamente las filas existentes.
+    //No retorna ningun valor, solo actualiza el modelo de la tabla con los datos de los asistentes
     public void mostrarAsistentes(DefaultTableModel tableEventos){
         tableEventos.setRowCount(0);
         for (int i = 0; i < arrayAsistentes.size(); i++) {
@@ -161,6 +174,8 @@ public class Evento{
         }
     }
     
+    // Esta Funcion muestra los datos de un asistente especifico en la tabla, basado en su id.
+    // No retorna ningun valor, solo actualiza la tabla con los datos del asistente si existe.
     public void mostrarAsistentes(DefaultTableModel tableEventos, String idAsistente){
         tableEventos.setRowCount(0);
         Asistente currentAsistente = obtenerAsistente(idAsistente);
@@ -173,23 +188,7 @@ public class Evento{
         }
     }
     
-    public void mostrarAsistentes(){
-
-        int i;
-        System.out.println("**Asistentes del evento: "+ nombreEvento+"** \n");
-        for (i = 0; i < arrayAsistentes.size(); i++){
-            
-
-            System.out.println("Id Asistente: "+arrayAsistentes.get(i).getidAsistente());
-            System.out.println("Nombre Asistente: "+arrayAsistentes.get(i).getNombre());
-            System.out.println("Edad Asistente: "+arrayAsistentes.get(i).getEdad());
-            System.out.println("Email Asistente: "+arrayAsistentes.get(i).getEmail());    
-            System.out.println("--------------------------------------------");
-        }
-    }
-    
-
-    // getters
+    // ----- Getters -----
     public String getIdEvento() {
         return idEvento;
     }
@@ -226,7 +225,7 @@ public class Evento{
         return arrayAsistentes.size();
     }
     
-    // setters
+    // ----- Setters -----
     public void setIdEvento(String idEvento) {
         this.idEvento = idEvento;
     }

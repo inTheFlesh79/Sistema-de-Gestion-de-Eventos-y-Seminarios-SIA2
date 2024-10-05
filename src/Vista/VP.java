@@ -22,6 +22,9 @@ public class VP extends javax.swing.JFrame {
      */
     private Menu menu = new Menu();
     
+    /*
+        FUNCIONES PARA DEPLEGAR LOS PANELES ANEXOS A VP
+    */
     private void showHome(Home h){
         h.setSize(768,578);
         h.setLocation(0,0);
@@ -67,9 +70,10 @@ public class VP extends javax.swing.JFrame {
         dynamicContentPnl.repaint();
     }
     
+    
+    //El Constructor de VP (Vista Principal) carga los datos desde los csv, ademas de setear las dimensiones de la ventana e iniciar sus componentes
     public VP() throws BadIdRecintoException {
         initComponents();
-        System.out.println(menu.getMenu());
         menu.cargarDatosArrayListRecintos();
         menu.cargarDatosMapaEventos();
         Home h = new Home();
@@ -170,7 +174,7 @@ public class VP extends javax.swing.JFrame {
         menuPnl.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         ventaEntradasBtn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        ventaEntradasBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recurso/ticketSmall.png"))); // NOI18N
+        ventaEntradasBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recurso/ticketIcon.png"))); // NOI18N
         ventaEntradasBtn.setText("Gestion de Entradas a Eventos");
         ventaEntradasBtn.setPreferredSize(new java.awt.Dimension(256, 60));
         ventaEntradasBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -181,7 +185,7 @@ public class VP extends javax.swing.JFrame {
         menuPnl.add(ventaEntradasBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 160, -1, -1));
 
         eventosBtn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        eventosBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recurso/eventicon3.png"))); // NOI18N
+        eventosBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recurso/newEventIcon2.png"))); // NOI18N
         eventosBtn.setText("Gestion de Eventos");
         eventosBtn.setPreferredSize(new java.awt.Dimension(256, 60));
         eventosBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -192,7 +196,7 @@ public class VP extends javax.swing.JFrame {
         menuPnl.add(eventosBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, -1, -1));
 
         recintosBtn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        recintosBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recurso/buildingicon.png"))); // NOI18N
+        recintosBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recurso/recintoIcon.png"))); // NOI18N
         recintosBtn.setText("Gestion de Recintos");
         recintosBtn.setPreferredSize(new java.awt.Dimension(256, 60));
         recintosBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -203,7 +207,7 @@ public class VP extends javax.swing.JFrame {
         menuPnl.add(recintosBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, -1, -1));
 
         homeBtn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        homeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recurso/homeicon.png"))); // NOI18N
+        homeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recurso/homeIcon2.png"))); // NOI18N
         homeBtn.setText("Pagina Principal");
         homeBtn.setPreferredSize(new java.awt.Dimension(256, 60));
         homeBtn.setSelected(true);
@@ -227,7 +231,8 @@ public class VP extends javax.swing.JFrame {
         menuPnl.add(exitBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 480, -1, -1));
 
         exportarDatosBtn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        exportarDatosBtn.setText("Exportar Datos");
+        exportarDatosBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recurso/saveFileIcon.png"))); // NOI18N
+        exportarDatosBtn.setText("Guardar Datos");
         exportarDatosBtn.setPreferredSize(new java.awt.Dimension(256, 60));
         exportarDatosBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -257,37 +262,43 @@ public class VP extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    //Esta Funcion ejecuta el codigo asociado al JButton ventaEntradasBtn. Envia las instancias de Menu y VP actuales.
     private void ventaEntradasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ventaEntradasBtnActionPerformed
         GestionEntradasEventos gee = new GestionEntradasEventos();
         gee.setMenu(menu);
         gee.setCurrentVP(this);
         showGestionEntradasEventos(gee);
     }//GEN-LAST:event_ventaEntradasBtnActionPerformed
-
+    
+    //Esta Funcion ejecuta el codigo asociado al JButton eventosBtn. Envia las instancias de Menu y VP actuales.
     private void eventosBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eventosBtnActionPerformed
         GestionEventos ge = new GestionEventos();
         ge.setMenu(menu);
         ge.setCurrentVP(this);
         showGestionEventos(ge);
     }//GEN-LAST:event_eventosBtnActionPerformed
-
+    
+    //Esta Funcion ejecuta el codigo asociado al JButton recintosBtn. Envia las instancias de Menu y VP actuales.
     private void recintosBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recintosBtnActionPerformed
         GestionRecintos gr = new GestionRecintos();
         gr.setMenu(menu);
         gr.setCurrentVP(this);
         showGestionRecintos(gr);
     }//GEN-LAST:event_recintosBtnActionPerformed
-
+    
+    //Esta Funcion ejecuta el codigo asociado al JButton exitBtn. Cierra el Programa y sus Ventanas.
     private void exitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitBtnActionPerformed
         System.exit(0);
     }//GEN-LAST:event_exitBtnActionPerformed
-
+    
+    //Esta Funcion ejecuta el codigo asociado al JButton homeBtn. Pagina Principal con propositos decorativos.
     private void homeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeBtnActionPerformed
         Home h = new Home();
         showHome(h);
     }//GEN-LAST:event_homeBtnActionPerformed
-
+    
+    //Esta Funcion ejecuta el codigo asociado al JButton exportarDatosBtn. Envia las instancias de Menu y VP actuales.
     private void exportarDatosBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportarDatosBtnActionPerformed
         ExportarDatos ed = new ExportarDatos();
         ed.setMenu(menu);

@@ -10,6 +10,11 @@ import Modelo.Menu;
 import javax.swing.JOptionPane;
 
 
+/*
+    POR FAVOR LEER LA NOMENCLATURA DE FUNCIONES, JBUTTONS Y DEMAS.
+    PARA ELLO, PUEDEN ENCONTRARLA MAS ABAJO EN LA LINEA 1136 Y ASI ENTENDER QUE CONTROLA CADA FUNCION
+*/
+
 public class GestionEventos extends javax.swing.JPanel {
 
     /**
@@ -19,8 +24,8 @@ public class GestionEventos extends javax.swing.JPanel {
     private Evento eventoTMP = new Evento();
     private VP currentVP;
     
+    //Constructor de GestionEventos. Oculta los paneles asociados a cada JButton Principal.
     public GestionEventos() {
-        
         initComponents();
         crearRecintoPnlCE.setVisible(false);
         crearRecintoPnlME.setVisible(false);
@@ -34,6 +39,8 @@ public class GestionEventos extends javax.swing.JPanel {
         modificarAsistentePnl.setVisible(false);
     }
     
+    //============================ Setters para las instancias actuales de Menu y VP ===========================
+    
     public void setCurrentVP(VP vp){
         this.currentVP = vp;    
     }
@@ -43,6 +50,8 @@ public class GestionEventos extends javax.swing.JPanel {
         this.menu = menu;
         System.out.println(menu.getMenu());
     }
+    
+    //============================ Getters de los Model de datos para cada objeto JTable ===========================
     
     public DefaultTableModel getMostrarEventosTblLEModel(){
         return (DefaultTableModel) mostrarEventosTblLE.getModel();
@@ -603,7 +612,7 @@ public class GestionEventos extends javax.swing.JPanel {
 
         HeaderEELbl.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         HeaderEELbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        HeaderEELbl.setText("Listado de Eventos");
+        HeaderEELbl.setText("Por favor, ingrese el ID del Evento a eliminar");
         HeaderEELbl.setPreferredSize(new java.awt.Dimension(400, 65));
         eliminarEvento.add(HeaderEELbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 0, -1, -1));
 
@@ -966,9 +975,7 @@ public class GestionEventos extends javax.swing.JPanel {
         add(backgroundPnl, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
     
-    //================= BOTONES ================================================
-    
-    
+    //============================ JButtons Principales del Panel GestionEventos ============================
     
     private void crearEventoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearEventoBtnActionPerformed
         idEventoFieldCE.setText("");
@@ -1014,9 +1021,7 @@ public class GestionEventos extends javax.swing.JPanel {
         
         menu.mostrarEventos(getMostrarEventosTblLEModel());
     }//GEN-LAST:event_listarEventosBtnActionPerformed
-
-    
-    
+  
     private void modEventoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modEventoBtnActionPerformed
         idEventoFieldME.setText("");
         nombreFieldME.setText("");
@@ -1126,7 +1131,27 @@ public class GestionEventos extends javax.swing.JPanel {
         currentVP.exportarDatosBtn.setVisible(false);
     }//GEN-LAST:event_recaudEventoBtnActionPerformed
 
-    //==========================================================================
+    //============= Funciones de Retorno (backBtn), JButtons y JTextFields que interactuan con el usuario ===============
+    
+    /*
+        NOMENCLATURA PARA LEER FUNCIONES:
+    
+        backBtn*SIGLA*: JButton que devuelve al panel principal de GestionEntradasEventos. (ej: backBtnCE)
+        aceptarBtn*SIGLA* - validarIDBtn*SIGLA* - buscarBtn*SIGLA*: JButton que registra la entrada y salida de datos en la ventana. (ej: aceptarBtnCE)
+        *NOMBRE*Field*SIGLA*: JTextField que guarda una String con datos ingresados por el usuario. (ej: idEventoFieldCE)
+        clearFields*NOMBRE*: Funcion que limpia los campos JTextFields de funciones especificas. (ej: clearFieldsCrearRecinto)
+        *NOMBRECOMPLETO*Btn: JButtons principales del panel GestionEntradasEventos. (ej: crearEventoBtn)
+    
+        SIGLAS:
+        CE = Crear Evento
+        CR = Crear Recinto
+        LE = Listar Eventos
+        ME = Modificar Evento
+        EE = Eliminar Evento
+        MA = Modificar Asistente
+        LAE = Listar Asistentes Evento
+        RE = Recaudacion Evento
+    */
     
     private void idEventoFieldCEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idEventoFieldCEActionPerformed
         // TODO add your handling code here:
@@ -1367,10 +1392,7 @@ public class GestionEventos extends javax.swing.JPanel {
     }//GEN-LAST:event_idRecintoFieldMEActionPerformed
 
     private void aceptarBtnMEPnlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarBtnMEPnlActionPerformed
-        // TODO add your handling code here:
-        
-        
-        //obtener Fields
+         //obtener Fields
         String idEvento, nombre, fecha, descripcion, grupoObjetivo, idRecinto,  valorEntrada;
         
         if (valorEntradaFieldME.getText().equals("")){
@@ -1689,8 +1711,7 @@ public class GestionEventos extends javax.swing.JPanel {
             if (menu.obtenerRecinto(idRecintoFieldCR.getText()) == null){
                 try{
                     menu.agregarRecinto(idEventoFieldCE.getText(), idRecintoFieldCR.getText(),nombreRecintoFieldCR.getText(),ubicacionFieldCR.getText(),cuposFieldCR.getText());
-                    menu.mostrarRecintos();//consola
-
+                    
                     crearRecintoPnlCE.setVisible(false);
                     crearEventoBtn.setVisible(true);
                     listarEventosBtn.setVisible(true);
@@ -1746,7 +1767,6 @@ public class GestionEventos extends javax.swing.JPanel {
             if (menu.obtenerRecinto(idRecintoFieldCR1.getText()) == null){
                 try{
                     menu.agregarRecinto(idEventoFieldME.getText(), idRecintoFieldCR1.getText(),nombreRecintoFieldCR1.getText(),ubicacionFieldCR1.getText(),cuposFieldCR1.getText());
-                    menu.mostrarRecintos();//consola
 
                     crearRecintoPnlME.setVisible(false);
                     crearEventoBtn.setVisible(true);

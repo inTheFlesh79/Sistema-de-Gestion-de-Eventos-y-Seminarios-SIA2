@@ -15,6 +15,12 @@ import javax.swing.JOptionPane;
  *
  * @author MSI
  */
+
+/*
+    POR FAVOR LEER LA NOMENCLATURA DE FUNCIONES, JBUTTONS Y DEMAS.
+    PARA ELLO, PUEDEN ENCONTRARLA MAS ABAJO EN LA LINEA 342 Y ASI ENTENDER QUE CONTROLA CADA FUNCION
+*/
+
 public class GestionEntradasEventos extends javax.swing.JPanel {
 
     /**
@@ -25,12 +31,15 @@ public class GestionEntradasEventos extends javax.swing.JPanel {
     private Menu menu;
     private VP currentVP;
     
+    //Constructor de GestionEntradasEventos. Oculta los paneles asociados a cada JButton Principal.
     public GestionEntradasEventos() {
         initComponents();
         venderEntradasPnl.setVisible(false);
         cancelEntradaPnl.setVisible(false);
         datosAsistentePnl.setVisible(false);
     }
+    
+    //============================ Setters para las instancias actuales de Menu y VP ============================
     
     public void setCurrentVP(VP vp){
         currentVP = vp;
@@ -296,7 +305,8 @@ public class GestionEntradasEventos extends javax.swing.JPanel {
 
         add(backgroundPnl, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
-    //BOTONES
+    
+    //============================ JButtons Principales del Panel GestionEntradaEventos ============================
     
     private void CancelarEntradaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarEntradaBtnActionPerformed
         cancelEntradaPnl.setVisible(true);
@@ -328,9 +338,23 @@ public class GestionEntradasEventos extends javax.swing.JPanel {
         currentVP.homeBtn.setVisible(false);
         currentVP.exportarDatosBtn.setVisible(false);
     }//GEN-LAST:event_venderEntradasBtnActionPerformed
+   
+    //============= Funciones de Retorno (backBtn), JButtons y JTextFields que interactuan con el usuario ===============
     
+    /*
+        NOMENCLATURA PARA LEER FUNCIONES:
     
-    //==========================================================================
+        backBtn*SIGLA*: JButton que devuelve al panel principal de GestionEntradasEventos. (ej: backBtnVE)
+        aceptarBtn*SIGLA* - validarIDBtn*SIGLA* - buscarBtn*SIGLA*: JButton que registra la entrada y salida de datos en la ventana. (ej: validarIdEventoBtn)
+        clearFields*NOMBRE*: Funcion que limpia los campos JTextFields de funciones especificas. (ej: clearFieldsCancelEntrada)
+        *NOMBRE*Field*SIGLA*: JTextField que guarda una String con datos ingresados por el usuario. (ej: idEventoFieldVE)
+        *NOMBRECOMPLETO*Btn: JButtons principales del panel GestionEntradasEventos. (ej: venderEntradasBtn)
+    
+        SIGLAS:
+        CE = Cancelar Entrada
+        VE = Vender Entrada
+        DA = DatosAsistente
+    */
     
     private void backBtnCEPnlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnCEPnlActionPerformed
         cancelEntradaPnl.setVisible(false);
@@ -376,20 +400,30 @@ public class GestionEntradasEventos extends javax.swing.JPanel {
     }//GEN-LAST:event_emailFieldDAActionPerformed
 
     private void validarIdEventoBtnVEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validarIdEventoBtnVEActionPerformed
-        //**CODIGO PARA VALIDAR ID EVENTO EXISTE Y ESTA ESCRITO CORRECTAMENTE**
-        System.out.println(menu.checkEvento(idEventoFieldVE.getText()));//consola
-        
         if(!"".equals(idEventoFieldVE.getText()) && menu.checkEvento(idEventoFieldVE.getText())){
             currentEvento = menu.obtenerEvento(idEventoFieldVE.getText());
-            if (currentEvento.getSizeArrayAsistentes() < menu.obtenerRecinto(currentEvento.getidRecinto()).getCupos()){
-                clearFieldsVenderEntradas();
-                datosAsistentePnl.setVisible(true);
-                venderEntradasPnl.setVisible(false);
-                currentEvento.mostrarAsistentes();//consola
+            if (menu.obtenerRecinto(currentEvento.getidRecinto()) != null){
+                if (currentEvento.getSizeArrayAsistentes() < menu.obtenerRecinto(currentEvento.getidRecinto()).getCupos()){
+                    clearFieldsVenderEntradas();
+                    datosAsistentePnl.setVisible(true);
+                    venderEntradasPnl.setVisible(false);
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "ENTRADAS AGOTADAS");
+                    clearFieldsVenderEntradas();
+                    venderEntradasPnl.setVisible(false);
+                    venderEntradasBtn.setVisible(true);
+                    CancelarEntradaBtn.setVisible(true);
+                    currentVP.ventaEntradasBtn.setVisible(true);
+                    currentVP.eventosBtn.setVisible(true);
+                    currentVP.recintosBtn.setVisible(true);
+                    currentVP.exitBtn.setVisible(true);
+                    currentVP.homeBtn.setVisible(true);
+                    currentVP.exportarDatosBtn.setVisible(true);
+                }
             }
             else{
-                JOptionPane.showMessageDialog(null, "ENTRADAS AGOTADAS");
-                clearFieldsVenderEntradas();
+                JOptionPane.showMessageDialog(null, "El ID ingresado corresponde a un Evento sin Recinto asignado. La venta de entradas para este recinto queda inhabilitada hasta nuevo aviso.", "Recinto Availability", JOptionPane.ERROR_MESSAGE);
                 venderEntradasPnl.setVisible(false);
                 venderEntradasBtn.setVisible(true);
                 CancelarEntradaBtn.setVisible(true);
@@ -399,6 +433,7 @@ public class GestionEntradasEventos extends javax.swing.JPanel {
                 currentVP.exitBtn.setVisible(true);
                 currentVP.homeBtn.setVisible(true);
                 currentVP.exportarDatosBtn.setVisible(true);
+                clearFieldsVenderEntradas();
             }
         }
         else{
@@ -416,7 +451,6 @@ public class GestionEntradasEventos extends javax.swing.JPanel {
             if (currentEvento.obtenerAsistente(idAsistenteFieldDA.getText()) == null){
                 try{
                     currentEvento.ventaEntrada(idAsistenteFieldDA.getText(),nombreAsistFieldDA.getText(),emailFieldDA.getText(),edadAsistFieldDA.getText());
-                    currentEvento.mostrarAsistentes();//consola
                     datosAsistentePnl.setVisible(false);
                     venderEntradasPnl.setVisible(false);
                     venderEntradasBtn.setVisible(true);
@@ -440,7 +474,6 @@ public class GestionEntradasEventos extends javax.swing.JPanel {
                 
             }
             else{
-                currentEvento.mostrarAsistentes();//consola
                 JOptionPane.showMessageDialog(null, "El asistente ingresado ya se encuentra en la lista de asistentes a este Evento", "Duplicate ID", JOptionPane.ERROR_MESSAGE);
                 datosAsistentePnl.setVisible(false);
                 venderEntradasPnl.setVisible(false);
@@ -480,7 +513,6 @@ public class GestionEntradasEventos extends javax.swing.JPanel {
                     headerValidarIdEventoLblCE.setVisible(true);
                     clearFieldsVenderEntradas();
                     clearFieldsVenderEntradas();
-                    currentEvento.mostrarAsistentes();//consola
                     JOptionPane.showMessageDialog(null, "Reembolso exitoso. El asistente fue removido del evento y sus fondos reembolsados correctamente", "System Says",JOptionPane.INFORMATION_MESSAGE);
                 }
                 else{
@@ -497,8 +529,6 @@ public class GestionEntradasEventos extends javax.swing.JPanel {
     }//GEN-LAST:event_reembolsarBtnCEActionPerformed
 
     private void validarIdEventoBtnCEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validarIdEventoBtnCEActionPerformed
-        System.out.println(menu.checkEvento(idEventoFieldCE.getText()));//consola
-        
         if(!"".equals(idEventoFieldCE.getText()) && menu.checkEvento(idEventoFieldCE.getText())){
             currentEvento = menu.obtenerEvento(idEventoFieldCE.getText());
             idEventoLblCE.setVisible(false);
@@ -510,7 +540,6 @@ public class GestionEntradasEventos extends javax.swing.JPanel {
             idAsistFieldCE.setVisible(true);
             reembolsarBtnCE.setVisible(true);
             headerLblCE.setVisible(true);
-            currentEvento.mostrarAsistentes();//consola
             clearFieldsVenderEntradas();
         }
         else{
@@ -519,7 +548,8 @@ public class GestionEntradasEventos extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_validarIdEventoBtnCEActionPerformed
     
-    //Funciones de limpiado
+    //============================ Funciones de limpiado de campos tipo JTextField ============================
+    
     public void clearFieldsCancelEntrada() {
         idAsistFieldCE.setText("");
         idEventoFieldCE.setText("");
@@ -535,9 +565,6 @@ public class GestionEntradasEventos extends javax.swing.JPanel {
         edadAsistFieldDA.setText("");
         emailFieldDA.setText("");
     }
-
-
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CancelarEntradaBtn;

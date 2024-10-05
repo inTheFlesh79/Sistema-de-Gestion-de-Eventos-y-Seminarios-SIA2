@@ -13,7 +13,10 @@ public class Recinto {
        //empty
     }
 
-    // setters
+    // ---- Setters ----
+    
+    // Esta Funcion establece el identificador del recinto, validando su formato.
+    // Lanza una excepción si el formato del id del recinto es incorrecto.
     public void setIdRecinto(String idRecinto) throws BadIdRecintoException{
       if (!validarFormatoIdRecinto(idRecinto)){
           throw new BadIdRecintoException();
@@ -36,7 +39,7 @@ public class Recinto {
       this.cupos = cupos;
     }
 
-    //getters
+    // ------ Getters ------
     public String getIdRecinto() {
       return idRecinto;
     }
@@ -54,8 +57,9 @@ public class Recinto {
     }
     
     //Funciones de Validacion para setters
-    public boolean validarFormatoIdRecinto(String idRecinto) {
-        return idRecinto.matches("\\d+");//idRecinto debe contener solo valores numericos
-    }
     
+    // Esta función se encarga de validar el id del Recinto para que  solo contenga valores numericos
+    public boolean validarFormatoIdRecinto(String idRecinto) {
+        return idRecinto.matches("\\d+");// validacion de contenga SOLO valores numnéricos.
+    }
 }

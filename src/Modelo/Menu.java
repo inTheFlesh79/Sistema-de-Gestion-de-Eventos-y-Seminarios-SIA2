@@ -5,51 +5,62 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Collection;
-import java.util.Map;
-import Vista.*;
 import javax.swing.table.DefaultTableModel;
 
 
 public class Menu {
     private HashMap<String, Evento> mapaEventos = new HashMap<String, Evento>();
     private ArrayList<Recinto> arrayRecintos = new ArrayList<Recinto>();
-    private FechaFormatChecker fechaChecker = new FechaFormatChecker();
     
+    //============================ Carga y Guardado de Datos ============================
+    
+    //Esta Funcion carga los datos del archivo CSV y los agrega al ArrayList de Recintos.
     public boolean cargarDatosArrayListRecintos(){
         String rutaCSV = "src/Recurso/datosRecintos.csv"; 
         String currentLineaCSV; 
+        
+        /*
+            El manejo de excepciones en esta funcion no tiene influencias en la Vista del programa,
+            ya que, la funciones creadas para las colecciones utilizadas (agregar, eliminar, etc)
+            se encargan de que todos los datos esten cumpliendo las normas y formatos que se esperan de ellos
+        */
         try (BufferedReader reader = new BufferedReader(new FileReader(rutaCSV))) {
             currentLineaCSV = reader.readLine();
+            
             while (currentLineaCSV != null) { 
                 String[] datosRecinto = currentLineaCSV.split(","); 
-                
                 if (datosRecinto.length >= 4){
                     Recinto newRecinto = new Recinto();
                     try{
-                        newRecinto.setIdRecinto(datosRecinto[0]); // ID Recinto
-                        newRecinto.setNombreRecinto(datosRecinto[1]); // Name
-                        newRecinto.setUbicacion(datosRecinto[2]); // Location
-                        newRecinto.setCupos(Integer.parseInt(datosRecinto[3])); // Capacity (parse to int)
-                        
-                        // Add the Recinto object to the arrayRecintos ArrayList
+                        newRecinto.setIdRecinto(datosRecinto[0]);
+                        newRecinto.setNombreRecinto(datosRecinto[1]);
+                        newRecinto.setUbicacion(datosRecinto[2]);
+                        newRecinto.setCupos(Integer.parseInt(datosRecinto[3]));
                         arrayRecintos.add(newRecinto);
                     }
                     catch (BadIdRecintoException | NumberFormatException e) {
-                        return false; // Validation error
+                        return false;
                     }
                 }
-                currentLineaCSV = reader.readLine(); // Update to read the next line
+                currentLineaCSV = reader.readLine();
             }
         } 
         catch (IOException e) {
-            return false; // File reading error
+            return false;
         }
-        return true; // Data loaded successfully
+        return true;
     }
     
+    //Esta Funcion carga los datos del archivo CSV y los agrega al Hashmap de Eventos y sus respectivos ArrayList de Asistentes.
     public boolean cargarDatosMapaEventos(){
         String rutaCSV = "src/Recurso/datosEventos.csv"; 
         String currentLineaCSV;
+        
+        /*
+            El manejo de excepciones en esta funcion no tiene influencias en la Vista del programa,
+            ya que, la funciones creadas para las colecciones utilizadas (agregar, eliminar, etc)
+            se encargan de que todos los datos esten cumpliendo las normas y formatos que se esperan de ellos
+        */
         try (BufferedReader reader = new BufferedReader(new FileReader(rutaCSV))) {
             currentLineaCSV = reader.readLine();
             while (currentLineaCSV != null) { 
@@ -69,21 +80,27 @@ public class Menu {
                         mapaEventos.put(newEvento.getIdEvento(), newEvento);
                     }
                     catch (NumberFormatException e) {
-                        return false; // Validation error
+                        return false;
                     }
                 }
-                currentLineaCSV = reader.readLine(); // Update to read the next line
+                currentLineaCSV = reader.readLine();
             }
         } 
         catch (IOException e) {
-            return false; // File reading error
+            return false;
         }
-        return true; // Data loaded successfully
+        return true;
     }
     
+    //Esta Funcion guarda los datos del ArrayList de Recintos en un archivo CSV.
     public boolean guardarDatosArrayListRecintos() {
         String rutaCSV = "src/Recurso/datosRecintos.csv"; 
-
+        
+        /*
+            El manejo de excepciones en esta funcion no tiene influencias en la Vista del programa,
+            ya que, la funciones creadas para las colecciones utilizadas (agregar, eliminar, etc)
+            se encargan de que todos los datos esten cumpliendo las normas y formatos que se esperan de ellos
+        */
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(rutaCSV))) {
             for (int i = 0; i < arrayRecintos.size(); i++) {
                 Recinto currentRecinto = arrayRecintos.get(i); 
@@ -96,26 +113,29 @@ public class Menu {
             }
         } 
         catch (IOException e) {
-            System.out.println("Error writing to file: " + e.getMessage());
             return false;
         }
-        System.out.println("Data Recintos Saved!");
         return true;
     }
-
+    
+    //Esta Funcion guarda los datos del HashMap de Eventos, incluyendo cada uno de sus ArrayList de tipo Asistente, y su información asociada en 2 archivos CSV.
     public boolean guardarDatosMapaEventos() {
         String rutaEventosCSV = "src/Recurso/datosEventos.csv"; 
         String rutaAsistentesCSV = "src/Recurso/datosAsistentes.csv";
         
-        //Limpiamos datosAsistentes para poder agregar correctamente TODO lo que se cambio durante la sesion
+        //Limpiamos datosAsistentes.csv para poder agregar correctamente TODO lo que se cambio durante la sesion.
         try{
             BufferedWriter writer = new BufferedWriter(new FileWriter(rutaAsistentesCSV));
         } 
         catch (IOException e) {
-            System.out.println("Error clearing file: " + e.getMessage());
             return false;
         }
         
+        /*
+            El manejo de excepciones en esta funcion no tiene influencias en la Vista del programa,
+            ya que, la funciones creadas para las colecciones utilizadas (agregar, eliminar, etc)
+            se encargan de que todos los datos esten cumpliendo las normas y formatos que se esperan de ellos
+        */
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(rutaEventosCSV))) {
             Collection<Evento> colEventos = mapaEventos.values();
             for (Evento evento : colEventos) {
@@ -132,26 +152,24 @@ public class Menu {
             }
         } 
         catch (IOException e) {
-            System.out.println("Error writing to file: " + e.getMessage());
             return false;
         }
-        System.out.println("Data Eventos Saved!");
         return true;
     }
 
-    // metodos de evento
+    //============================ Metodos para manejar mapaEventos ============================
+    
+    //Esta Funcion agrega un evento al HashMap de Eventos. Tiene manejo de excepciones y retornos con valores diferentes, con significados especificos.
     public int agregarEvento(String llave, String nombreEvento, String fechaEvento, String descripcion, String grupoObjetivo, String idRecinto, String valorEntrada) 
                             throws BadIdRecintoException, IllegalArgumentException{
         Evento evento = mapaEventos.get(llave);
         if (evento != null){
-            // ya existe
-            return 0;
+            return 0;//El Evento existe
         }
-        // si no, lo agregamos.
+        
         Recinto recintoTMP;
         recintoTMP = obtenerRecinto(idRecinto);
-        //el Recinto existe
-        if (recintoTMP != null){ // verificar la existencia del reicnto
+        if (recintoTMP != null){ //El Recinto existe.
             Evento newE = new Evento();
             newE.setidRecinto(idRecinto);
             newE.setNombreEvento(nombreEvento);
@@ -166,7 +184,7 @@ public class Menu {
             mapaEventos.put(llave, newE);
         }
         else if (recintoTMP == null && arrayRecintos.size() != 0){
-            return -2; // no se encontró el recinto
+            return -2; //Existen Recintos, pero no es el buscado.
         }
         if (arrayRecintos.size() == 0){
             Evento newE = new Evento();
@@ -178,30 +196,29 @@ public class Menu {
             newE.setValorEntrada(Integer.parseInt(valorEntrada));
             newE.setIdEvento(llave);
             mapaEventos.put(llave, newE);
-            return -1; // se debe crear un recinto
+            return -1; //No existen Recintos en el sistema. Se procede a crear uno.
         }
         return 1;
     }
     
-     
+    //Esta Funcion elimina un evento del HashMap de Eventos si existe. 
     public boolean eliminarEvento(String idEvento) {
-        
         Evento eventoTMP = mapaEventos.get(idEvento);
-
         if (eventoTMP != null) {
             mapaEventos.remove(idEvento);
-            return true; // Se eliminó correctamente el evento
+            return true; //Se encuentra el Evento y se elimina del mapa.
         }
-        return false; // El evento no existe
+        return false; //El evento no existe.
     }
     
+    //Esta Funcion muestra los eventos en una tabla utilizando un modelo de JTable que se obtiene desde Vista.GestionEventos.
     public void mostrarEventos(DefaultTableModel tableEventos){
         tableEventos.setRowCount(0);
         Collection<Evento> colEventos = mapaEventos.values();
         for (Evento evento : colEventos) {
-            if (obtenerRecinto(evento.getidRecinto()) == null) {
+            if (obtenerRecinto(evento.getidRecinto()) == null) {//Si se elimina el Recinto asociado a un Evento, se le deja declarado "No Asignado".
                 Object[] filaTableEventos1 = {evento.getIdEvento(), evento.getNombreEvento(), evento.getFechaEvento(), "No Asignado", 
-                                        evento.getGrupoObjetivo(), evento.getDescripcion(), evento.getValorEntrada()};
+                                              evento.getGrupoObjetivo(), evento.getDescripcion(), evento.getValorEntrada()};
                 tableEventos.addRow(filaTableEventos1);
                 continue;
             }
@@ -210,18 +227,17 @@ public class Menu {
             tableEventos.addRow(filaTableEventos);
         }
     }
-
+    
+    //Esta Funcion modifica los datos de un evento en el HashMap de Eventos. Tiene manejo de excepciones y retornos con valores diferentes, y con significados especificos.
     public int modificarEvento(String idEvento, String nombre, String fecha, String descripcion, String grupoObjetivo, String idRecinto, String valorEntrada)
                                throws IllegalArgumentException{
-        
         Recinto recintoTMP;
         Evento eventoTMP = (Evento) mapaEventos.get(idEvento);
         
-        
-        if (eventoTMP != null){ // se encontró al evento a modificar
+        if (eventoTMP != null){
             recintoTMP = obtenerRecinto(idRecinto);
             if (recintoTMP != null && !checkRecintoCuposHoldEventoAsistentes(eventoTMP.getSizeArrayAsistentes(), idRecinto)){
-                return 0;
+                return 0;//El Evento no se modifico. (Caso Especial: El Recinto que se quiere asociar al Evento existe, pero no cuenta con suficiente capacidad para manejar la cantidad de asistentes.)
             }
             
             if (recintoTMP != null){
@@ -234,7 +250,7 @@ public class Menu {
                     throw new IllegalArgumentException("ERROR: Valor de entrada invalido. Por favor, ingrese solo valores numericos.");
                 } 
                 eventoTMP.setValorEntrada(Integer.parseInt(valorEntrada));
-                return 1; // se pudo modificar
+                return 1; //El Evento se modifico.
             }
             else if (recintoTMP == null && arrayRecintos.size() == 0){
                 eventoTMP.setNombreEvento(nombre);
@@ -245,27 +261,28 @@ public class Menu {
                     throw new IllegalArgumentException("ERROR: Valor de entrada invalido. Por favor, ingrese solo valores numericos.");
                 } 
                 eventoTMP.setValorEntrada(Integer.parseInt(valorEntrada));
-                return -1;
+                return -1;//No existen Recintos registrados en el sistema. Se procede a crear uno.
             }
             else if (recintoTMP == null && arrayRecintos.size() != 0){
                 return -2;
             }
         }  
-        return 0; // no se pudo modificar
+        return 0; //El Evento no se modifico.
     }
     
+    //Esta Funcion obtiene y retorna un Evento del mapaEventos en base a un ID entregada.
     public Evento obtenerEvento(String idEvento){
         return mapaEventos.get(idEvento);
     }
     
+    //Esta Funcion revisa si existe un Evento asociado a la ID entregada.
     public boolean checkEvento(String idEvento){
         return mapaEventos.containsKey(idEvento);
     }
 
+    //============================ Metodos para manejar arrayRecintos ============================
 
-    // metodos de Array Recintos
-
-    // AGREGAR RECINTO #2
+    //Esta Funcion agrega un nuevo Recinto al arrayRecintos basado en los atributos entregados. Tiene manejo de excepciones.
     public void agregarRecinto(String idRecinto, String nombre, String ubicacion, String cupos) throws BadIdRecintoException, IllegalArgumentException{
         Recinto newR = new Recinto();
         newR.setIdRecinto(idRecinto);
@@ -278,6 +295,7 @@ public class Menu {
         arrayRecintos.add(newR);
     }
     
+    //Esta Funcion agrega un Recinto y lo vincula a un Evento usando sus IDs. Tiene manejo de excepciones.
     public void agregarRecinto(String idEvento, String idRecinto, String nombre, String ubicacion, String cupos) throws BadIdRecintoException, IllegalArgumentException{
         Recinto newR = new Recinto();
         Evento currentEvento = new Evento();
@@ -292,20 +310,22 @@ public class Menu {
         currentEvento = mapaEventos.get(idEvento);
         currentEvento.setidRecinto(idRecinto);
     }
-
+    
+    //Esta Funcion elimina un Recinto del arrayRecintos en base a una ID.
     public boolean eliminarRecinto(String idRecintoEliminar) {
-    if (arrayRecintos != null && !arrayRecintos.isEmpty()) {
-        for (Recinto recintoTMP : arrayRecintos) {
-            String idRecintoTMP = recintoTMP.getIdRecinto();
-            if (idRecintoTMP.equals(idRecintoEliminar)) {
-                arrayRecintos.remove(recintoTMP);
-                return true;
+        if (arrayRecintos != null && !arrayRecintos.isEmpty()) {
+            for (Recinto recintoTMP : arrayRecintos) {
+                String idRecintoTMP = recintoTMP.getIdRecinto();
+                if (idRecintoTMP.equals(idRecintoEliminar)) {
+                    arrayRecintos.remove(recintoTMP);
+                    return true;
+                }
             }
         }
+        return false;
     }
-    return false;
-    }
-
+    
+    //Esta Funcion busca y devuelve un Recinto por su ID.
     public Recinto obtenerRecinto(String idRecinto){
         int i;
         for (i = 0; i < arrayRecintos.size(); i++){
@@ -315,20 +335,9 @@ public class Menu {
         }
         return null; // en caso de no encontrarse.
     }
-
-    public void mostrarRecintos(){//consola
-        int i;
-        System.out.println("RECINTOS:");
-        for (i = 0; i < arrayRecintos.size(); i++){
-            System.out.println("Nombre: " + arrayRecintos.get(i).getNombreRecinto());
-            System.out.println("Ubicacion: " + arrayRecintos.get(i).getUbicacion());
-            System.out.println("Capacidad: " + arrayRecintos.get(i).getCupos());
-            System.out.println("Id: " + arrayRecintos.get(i).getIdRecinto());
-            System.out.println("------------------------------------------------------");
-        }
-    }
     
-    public void mostrarRecintos(DefaultTableModel tableRecintos){//ventana, muestra TODOS los recintos
+    //Esta Funcion muestra todos los recintos en el sistema mediante el modelo de un JTable.
+    public void mostrarRecintos(DefaultTableModel tableRecintos){
         tableRecintos.setRowCount(0);
         Object[] filaTableRecintos  = new Object[4];
         for (int i = 0; i < arrayRecintos.size(); i++){
@@ -340,6 +349,7 @@ public class Menu {
         }
     }
     
+    //Esta Funcion muestra UNO de los recintos en el sistema mediante el modelo de un JTable y una ID especifica.
     public boolean mostrarRecintos(DefaultTableModel tableRecintos, String idRecinto){//ventana, muestra SOLO el recinto especificado
         tableRecintos.setRowCount(0);
         Object[] filaTableRecintos = new Object[4];
@@ -356,26 +366,27 @@ public class Menu {
             return false;
         }
     }
-
+    
+    //Esta Funcion modifica los datos de un Recinto en base a una ID. Tiene manejos de Excepciones.
     public boolean modificarRecinto(String idRecinto, String nombre, String ubicacion, String cupos) throws IllegalArgumentException {
         Recinto recintoMod = new Recinto();
         recintoMod = obtenerRecinto(idRecinto);
         if (recintoMod != null){
-            // setters de los parametros.
             recintoMod.setNombreRecinto(nombre);
             recintoMod.setUbicacion(ubicacion);
             if (!cupos.matches("\\d+")){
                 throw new IllegalArgumentException("ERROR: Valor de Cupos invalido. Por favor, ingrese solo valores numericos.");
             }
             if (!checkRecintoCuposHoldEventoAsistentes(idRecinto, Integer.parseInt(cupos))){
-                return false;
+                return false;//La nueva cantidad de cupos del Recinto no satisface la cantidad de Asistentes a un Evento/s que son dependientes de este.
             }
             recintoMod.setCupos(Integer.parseInt(cupos));
-            return true; // se pudo modificar
+            return true; //El Recinto se modifico.
         }
-        return false;
+        return false;//El Recinto no se modifico.
     }
     
+    //Esta Funcion verifica si el recinto tiene cupos suficientes para un evento dado.
     public boolean checkRecintoCuposHoldEventoAsistentes(int eventoCupos, String idRecinto){
         if (obtenerRecinto(idRecinto).getCupos() < eventoCupos){
             return false;
@@ -383,6 +394,7 @@ public class Menu {
         return true;
     }
     
+    //Esta Funcion verifica si al modificar los cupos de un Recinto, estos siguen siendo suficientes para los asistentes con Eventos asociados a este Recinto.
     public boolean checkRecintoCuposHoldEventoAsistentes(String idRecinto, int newCupos){
         Collection<Evento> colEventos = mapaEventos.values();
         for (Evento evento : colEventos) {
@@ -395,224 +407,8 @@ public class Menu {
         return true;
     }
     
-    
-    
-    public void runMenu() throws BadIdRecintoException{//FUNCION TEMPORAL DE TESTEO
-        //inicializarEventosyAsistentes();
-        //inicializarRecintos();
-        cargarDatosArrayListRecintos();
-    }
-    
+    //Esta Funcion retorna el menu actual, el cual contiene todos los datos de las colecciones en su actual sesion.
     public Menu getMenu(){
         return this;
     }
-    
-    /*
-    public void runMenu() throws IOException {
-        BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
-        boolean flag = true;
-        boolean status = false;
-        String idEvento, idRecinto, idAsistente;
-        Evento eventoTMP;
-        int opcion = 0, opcionB, opcionC, opcionD;
-        
-        inicializarEventosyAsistentes();
-        inicializarRecintos();
-        
-        System.out.println("**ADMINISTRADOR DE EVENTOS v1.0**\n");
-
-        while (flag) {
-            menuPrincipal();
-            opcion = opcionValida( 1, 4, lector);
-
-            switch (opcion) {
-                case 1:
-                menuEventos();
-                opcionB = opcionValida( 1, 5, lector);
-                switch (opcionB) {
-                case 1:
-                  // Agregar nuevo Evento
-                    status = agregarEvento(lector, arrayRecintos);
-                    if (status == true){
-                        System.out.println("[INFO]: evento agregado correctamente");
-                    }else{
-                        System.out.println("[ERROR]: no se pudo agregar el evento");
-                    }
-                  break;
-                case 2:
-                  // Modificar Evento
-                    status = modificarEvento(lector);
-                    if (status == true){
-                        System.out.println("[INFO]: evento modificado correctamente");
-                    }else{
-                        System.out.println("[ERROR]: no se pudo modificar el evento");
-                    }
-                  break;
-                case 3:
-                    // Eliminar Evento
-                    status = eliminarEvento(lector);
-                    if (status == true){
-                        System.out.println("[INFO]: evento eliminado correctamente");
-                    }else{
-                        System.out.println("[ERROR]: no se pudo eliminar el evento");
-                    }
-                    break;
-                case 4:
-                    // Mostrar Eventos
-                    mostrarEventos();
-                    break;
-                case 5:
-                    System.out.println("Regresando al menu principal...");
-                    // Regresar al menu principal
-                    break;
-                default:
-                    System.out.println("Ingrese una opcion valida.");
-                    break;
-                }
-                break;
-                case 2:
-                    menuAsistentes();
-                    opcionC = opcionValida( 1, 5, lector);
-                    switch (opcionC) {
-                        case 1:
-                            // Solicitar el id del evento al que agregar el asistente.
-                            System.out.println("Ingrese el id del evento al que desea agregar el asistente: " );
-                            idEvento = lector.readLine();
-                            eventoTMP = mapaEventos.get(idEvento);
-                            
-                            if (eventoTMP != null){
-                                status = eventoTMP.ventaEntrada(); // agregar asistente
-                                Recinto recintoTMP = obtenerRecinto(arrayRecintos, eventoTMP.getidRecinto());
-                                int cuposTMP = recintoTMP.getCupos();
-                                if (eventoTMP.getSizeArrayAsistentes() <= cuposTMP){
-                                    if (status){
-                                        System.out.println("[INFO] Venta exitosa! El asistente se ha agregado correctamente al Evento");
-                                        System.out.println("El cobro por la entrada es: " + eventoTMP.getValorEntrada());
-                                    }else{
-                                        System.out.println("[ERROR]: No se pudo hacer el cobro de la entrada");
-                                    }
-                                }else{
-                                    System.out.println("[ERROR]: No se pudo hacer el cobro de la entrada");
-                                }
-                            }
-                            // Agregar nuevo Asistente
-                            break;
-                        case 2:
-                            // Modificar Asistente
-                            // primero debo solciitar el id del evento al que pertenece el asistente.
-                            System.out.println("Ingrese el id del evento al que desea modificar el asistente: " );
-                            idEvento = lector.readLine();
-                            eventoTMP = mapaEventos.get(idEvento);
-                            if(eventoTMP != null){
-                                
-                                // solciitar el id del asistente a modificar.
-                                System.out.println("Ingrese el id del asistente a modificar: " );
-                                idAsistente = lector.readLine();
-                                if(eventoTMP.modificarAsistente(idAsistente, lector) == true){
-                                    System.out.println("[INFO]: asistente modificado correctamente");
-                                }else{
-                                    System.out.println("[ERROR] No se pudo modificar el asistente");
-                                }
-                            }else{
-                                System.out.println("[ERROR] No se pudo modificar el asistente");
-                            }
-
-
-
-                            break;
-                        case 3:
-                            // Eliminar Asistente
-                            System.out.println("Ingrese el id del evento al que desea eliminar el asistente: " );
-                            idEvento = lector.readLine();
-                            eventoTMP = mapaEventos.get(idEvento);
-                            if(eventoTMP != null){
-
-                                if(eventoTMP.eliminarAsistente(lector) == true){
-                                    System.out.println("[INFO]: Se ha devuelto el dinero al cliente y se ha descontado el valor de la entrada al fondo recaudado del evento.");
-                                }else{
-                                    System.out.println("[ERROR] No se pudo eliminar el asistente");
-                                }
-                            }else{
-                                System.out.println("[ERROR] No se pudo eliminar el asistente");
-                            }
-
-
-                            break;
-                        case 4:
-                            // Mostrar Asistentes
-                            System.out.println("Ingrese el id del evento al que desea mostrar sus asistentes: " );
-                            idEvento = lector.readLine();
-                            eventoTMP = mapaEventos.get(idEvento);
-                            if(eventoTMP != null){
-                                eventoTMP.mostrarAsistentes();
-                            }else{
-                                System.out.println("[INFO]: No hay asistentes para mostrar");
-                            }
-                            break;
-                        case 5:
-                            // Regresar al menu principal
-                            System.out.println("Regresando al menu principal...");
-                            break;
-                        default:
-                            System.out.println("Ingrese una opcion valida.");
-                            break;
-                    }
-                    break;
-                case 3:
-                menuRecintos();
-                opcionD = opcionValida( 1, 5, lector);
-                switch (opcionD) {
-                    case 1:
-                        // Agregar nuevo Recinto
-                        if (agregarRecinto(lector, arrayRecintos) == true){
-                            System.out.println("[INFO]: recinto agregado correctamente");
-                        }else{
-                            System.out.println("[ERROR]: no se pudo agregar el recinto");
-                        }
-                        break;
-                    case 2:
-                        // Modificar Recinto
-                        if (modificarRecinto(lector) == true){
-                            System.out.println("[INFO]: recinto modificado correctamente");
-                        }else{
-                            System.out.println( "[ERROR]: no se pudo modificar el recinto");
-                        }
-                        break;
-                    case 3:
-                        // Eliminar Recinto
-                        System.out.println("Ingrese el id del recinto que desea eliminar: ");
-                        idRecinto = lector.readLine();
-                        if (eliminarRecinto(idRecinto, arrayRecintos) == true){
-                            System.out.println("[INFO]: recinto eliminado correctamente");
-                        }else{
-                            System.out.println("[ERROR]: no se pudo eliminar el recinto");
-                        }
-                        break;
-                    case 4:
-                        // Mostrar Recinto
-                        if (arrayRecintos.isEmpty()){
-                            System.out.println("No existen Recintos registrados en el sistema");
-                        }
-                        mostrarRecintos();
-                        break;
-                    case 5:
-                        // Regresar al menu principal
-                        System.out.println("Regresando al menu principal...");
-                        break;
-                    default:
-                        System.out.println("Ingrese una opcion valida.");
-                        break;
-                    }
-                    break;
-                case 4:
-                    flag = false; // salir
-                    System.out.println("Saliendo del programa...");
-                    break;
-                default:
-                    System.out.println("Ingrese una opcion valida.");
-                    break;
-            }
-      }
-    }
-    */
-  }
+}
