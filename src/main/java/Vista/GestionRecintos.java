@@ -207,6 +207,7 @@ public class GestionRecintos extends javax.swing.JPanel {
         listarRecintosPnl.add(backBtnLRPnl, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 400, -1, -1));
 
         recintosTableScrPnlLR.setBackground(new java.awt.Color(255, 255, 255));
+        recintosTableScrPnlLR.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         recintosTableScrPnlLR.setPreferredSize(new java.awt.Dimension(650, 210));
 
         recintosTblLR.setBackground(new java.awt.Color(255, 255, 255));
@@ -498,6 +499,7 @@ public class GestionRecintos extends javax.swing.JPanel {
         currentVP.recintosBtn.setVisible(true);
         currentVP.exitBtn.setVisible(true);
         currentVP.homeBtn.setVisible(true);
+        clearFieldsListarRecintos();
     }//GEN-LAST:event_backBtnLRPnlActionPerformed
 
     private void backBtnMRPnlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnMRPnlActionPerformed
@@ -647,7 +649,12 @@ public class GestionRecintos extends javax.swing.JPanel {
     }//GEN-LAST:event_aceptarBtnERActionPerformed
 
     private void buscarIdRecintoBtnLRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarIdRecintoBtnLRActionPerformed
-        
+        if (!"".equals(idRecintoFieldLR.getText())){
+            menu.mostrarRecintos(getRecintosTblLRModel(), idRecintoFieldLR.getText());
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Los campos se encuentran vacios", "Field Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_buscarIdRecintoBtnLRActionPerformed
 
     //Funciones de limpiado
@@ -670,6 +677,10 @@ public class GestionRecintos extends javax.swing.JPanel {
         nombreRecintoFieldDR.setText("");
         ubicacionFieldDR.setText("");
         cuposFieldDR.setText("");
+    }
+    
+    public void clearFieldsListarRecintos(){
+        idRecintoFieldLR.setText("");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

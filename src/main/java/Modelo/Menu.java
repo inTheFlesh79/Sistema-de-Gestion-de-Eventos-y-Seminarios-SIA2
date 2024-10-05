@@ -332,8 +332,21 @@ public class Menu {
         }
     }
     
-    public void mostrarRecintos(DefaultTableModel tableRecintos, String idRecinto){
-        
+    public boolean mostrarRecintos(DefaultTableModel tableRecintos, String idRecinto){//ventana, muestra SOLO el recinto especificado
+        tableRecintos.setRowCount(0);
+        Object[] filaTableRecintos = new Object[4];
+        Recinto currentRecinto = obtenerRecinto(idRecinto);
+        if (currentRecinto != null){
+            filaTableRecintos[0] = currentRecinto.getIdRecinto();
+            filaTableRecintos[1] = currentRecinto.getNombreRecinto();
+            filaTableRecintos[2] = currentRecinto.getUbicacion();
+            filaTableRecintos[3] = currentRecinto.getCupos();
+            tableRecintos.addRow(filaTableRecintos);
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     public boolean modificarRecinto(Recinto recintoMod, String nombre, String ubicacion, int cupos) {
